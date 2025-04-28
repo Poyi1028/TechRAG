@@ -4,11 +4,15 @@ Leverage Large Language Models (LLMs) and Retrieval-Augmented Generation (RAG) t
 
 ---
 
+![專案截圖](index.png)
+
+---
+
 ## 📚 Tech Stack
 
 - **Backend**:
-  ![Go](https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white)
-  ![Gin](https://img.shields.io/badge/Gin-00ADD8?style=for-the-badge&logo=go&logoColor=white)
+  ![Go](https://img.shields.io/badge/Go-008ECF?style=for-the-badge&logo=go&logoColor=white)
+  ![Gin](https://img.shields.io/badge/Gin-008ECF?style=for-the-badge&logo=Gin&logoColor=white)
 - **RAG Engine**:
   ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
   ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
@@ -16,9 +20,13 @@ Leverage Large Language Models (LLMs) and Retrieval-Augmented Generation (RAG) t
   ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white)
   ![Qdrant](https://img.shields.io/badge/Qdrant-00b3b3?style=for-the-badge&logo=qdrant&logoColor=white)
 - **Summarization Model**:
-  ![BART](https://img.shields.io/badge/BART--Large--CNN-0052CC?style=for-the-badge&logo=pytorch&logoColor=white)
+  ![BART](https://img.shields.io/badge/BART--Large--CNN-0052CC?style=for-the-badge&logo=huggingface&logoColor=white)
+- **Chatbot Model**:
+  ![Llama3](https://img.shields.io/badge/Llama3-0052CC?style=for-the-badge&logo=meta&logoColor=white)
 - **News Source**:
   ![Event Registry](https://img.shields.io/badge/Event%20Registry-FF5722?style=for-the-badge&logo=news&logoColor=white)
+
+![核心功能](core_feature.png)
 
 ---
 
