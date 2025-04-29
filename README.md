@@ -63,7 +63,7 @@ This will start:
 ## 🔥 Development Progress
 
 - [x] Basic Go Gin API Setup
-- [x] Basic Python FastAPI RAG/Summarization Setup
+- [ ] Basic Python FastAPI RAG/Summarization Setup
 - [ ] News Fetcher (Event Registry Integration)
 - [ ] RAG Integration with Qdrant
 - [ ] Dockerization and Deployment
