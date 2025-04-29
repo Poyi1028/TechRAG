@@ -1,0 +1,229 @@
+/* 科技趨勢偵測平台額外樣式 */
+
+/* 動畫效果 */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 5px rgba(99, 102, 241, 0.3); }
+  50% { box-shadow: 0 0 15px rgba(99, 102, 241, 0.5); }
+  100% { box-shadow: 0 0 5px rgba(99, 102, 241, 0.3); }
+}
+
+/* 自定義類別 */
+.animate-pulse {
+  animation: pulse 3s infinite ease-in-out;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.7s ease-out forwards;
+}
+
+.animate-glow {
+  animation: glow 2.5s infinite ease-in-out;
+}
+
+.tech-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.tech-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(99, 102, 241, 0.03),
+    rgba(168, 85, 247, 0.03)
+  );
+  transform: rotate(45deg);
+  z-index: -1;
+  transition: all 0.5s ease;
+}
+
+.tech-card:hover::before {
+  transform: rotate(45deg) translateY(-15%);
+}
+
+/* 定制滾動條 */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.5);
+}
+
+/* 科技風格裝飾元素 */
+.tech-circuit {
+  position: relative;
+}
+
+.tech-circuit::after {
+  content: '';
+  position: absolute;
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.7), rgba(168, 85, 247, 0.7), transparent);
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* 模糊背景效果增強 */
+.blur-backdrop {
+  position: relative;
+}
+
+.blur-backdrop::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.03), transparent 70%),
+              radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.03), transparent 70%);
+  z-index: -1;
+}
+
+/* 資料卡片懸浮效果 */
+.hover-card-effect {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.hover-card-effect:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(99, 102, 241, 0.1);
+}
+
+/* 數據標籤動態效果 */
+.data-tag {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.data-tag::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.07), transparent);
+  transition: all 0.5s ease;
+}
+
+.data-tag:hover {
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+}
+
+.data-tag:hover::after {
+  left: 100%;
+}
+
+/* 數據指標效果 */
+.data-indicator {
+  position: relative;
+  padding-left: 15px;
+}
+
+.data-indicator::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366F1, #A855F7);
+}
+
+/* 簡約搜尋框 */
+input[type="text"], input[type="email"] {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(99, 102, 241, 0.1);
+  transition: all 0.3s ease;
+  caret-color: rgba(99, 102, 241, 0.8);
+}
+
+input[type="text"]:focus, input[type="email"]:focus {
+  background: rgba(15, 23, 42, 0.7);
+  border-color: rgba(99, 102, 241, 0.3);
+  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.1), 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* 玻璃態效果調整 */
+.glass-effect {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(99, 102, 241, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.glass-effect:hover {
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+/* 按鈕效果 */
+button {
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+/* 漸變文字 */
+.text-gradient {
+  background: linear-gradient(to right, #6366F1, #A855F7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* 高級陰影效果 */
+.premium-shadow {
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(99, 102, 241, 0.1);
+}
+
+/* 響應式調整 */
+@media (max-width: 768px) {
+  .tech-circuit::after {
+    width: 40px;
+  }
+  
+  .data-indicator {
+    padding-left: 12px;
+  }
+  
+  .data-indicator::before {
+    width: 3px;
+    height: 3px;
+  }
+} 

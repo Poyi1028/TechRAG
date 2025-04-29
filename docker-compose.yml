@@ -6,9 +6,9 @@ services:
     container_name: my-postgres
     restart: always
     environment:
-      POSTGRES_USER: postgres         # 資料庫使用者
-      POSTGRES_PASSWORD: mypassword    # 資料庫密碼
-      POSTGRES_DB: mydatabase          # 預設建立的資料庫
+      POSTGRES_USER: ${POSTGRES_USER}         # 資料庫使用者
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}    # 資料庫密碼
+      POSTGRES_DB: ${POSTGRES_DB}          # 預設建立的資料庫
     ports:
       - "5432:5432"
     volumes:
@@ -19,8 +19,8 @@ services:
     container_name: my-pgadmin
     restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com   # 登入 pgAdmin 的帳號
-      PGADMIN_DEFAULT_PASSWORD: admin         # 登入 pgAdmin 的密碼
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}   # 登入 pgAdmin 的帳號
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}    # 登入 pgAdmin 的密碼
     ports:
       - "5050:80"
     depends_on:
