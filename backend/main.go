@@ -34,5 +34,5 @@ func main() {
 	r.GET("/fetch", fetch)
 
 	// 啟動服務器
-	r.Run() // 預設在瀏覽器 localhost:8080
+	r.Run(":8080") // 預設在瀏覽器 localhost:8080
 }

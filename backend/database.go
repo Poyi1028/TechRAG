@@ -55,89 +55,41 @@ func saveArticlesToDB(articles []Article, db *sql.DB) error {
 		return fmt.Errorf("開始事務失敗: %v", err)
 	}
 
-	// 為每個表準備預處理語句
-	// 嘗試 insert 資料，若發現 uri 衝突則改為 update 其餘資料
+	// 準備預處理語句
+	// 嘗試 insert 資料，若發現 uri 衝突則不進行任何動作
 	articleStmt, err := tx.Prepare(`
-		INSERT INTO articles (uri, title, content, url, published_at, source_uri, source_title, source_image)
-		VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-		ON CONFLICT (uri) DO UPDATE SET
-		title = $2, content = $3, url = $4, published_at = $5, 
-		source_uri = $6, source_title = $7, source_image = $8`)
+		INSERT INTO articles (uri, title, content, summary, url, published_at, source_uri, source_title, image)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+		ON CONFLICT (uri) DO NOTHING`)
 	if err != nil {
 		tx.Rollback()
 		return fmt.Errorf("預處理 articles 語句失敗: %v", err)
 	}
 	defer articleStmt.Close()
 
-	conceptStmt, err := tx.Prepare(`
-		INSERT INTO concepts (article_uri, concept_uri, concept_label, concept_score)
-		VALUES ($1, $2, $3, $4)
-		ON CONFLICT (article_uri, concept_uri) DO UPDATE SET
-		concept_label = $3, concept_score = $4`)
-	if err != nil {
-		tx.Rollback()
-		return fmt.Errorf("預處理 concepts 語句失敗: %v", err)
-	}
-	defer conceptStmt.Close()
-
-	categoryStmt, err := tx.Prepare(`
-		INSERT INTO categories (article_uri, category_uri, category_label, category_score)
-		VALUES ($1, $2, $3, $4)
-		ON CONFLICT (article_uri, category_uri) DO UPDATE SET
-		category_label = $3, category_score = $4`)
-	if err != nil {
-		tx.Rollback()
-		return fmt.Errorf("預處理 categories 語句失敗: %v", err)
-	}
-	defer categoryStmt.Close()
-
 	// 遍歷並保存每篇文章
 	for _, article := range articles {
+		var eng_summary string
+		if article.Summary != nil {
+			if sum, ok := article.Summary["eng"]; ok {
+				eng_summary = sum
+			}
+		}
 		// 保存文章基本信息
 		_, err := articleStmt.Exec(
 			article.URI,
 			article.Title,
 			article.Body,
+			eng_summary,
 			article.URL,
 			article.Date,
 			article.Source.URI,
 			article.Source.Title,
-			article.Source.Image,
+			article.Image,
 		)
 		if err != nil {
 			tx.Rollback()
 			return fmt.Errorf("插入文章失敗: %v", err)
-		}
-
-		// 保存概念信息
-		for _, concept := range article.Concepts {
-			// 含有複數語言標籤，而此處只需要取用英文標籤
-			eng_label := concept.Label["eng"]
-
-			_, err := conceptStmt.Exec(
-				article.URI,
-				concept.URI,
-				eng_label,
-				concept.Score,
-			)
-			if err != nil {
-				tx.Rollback()
-				return fmt.Errorf("插入概念失敗: %v", err)
-			}
-		}
-
-		// 保存分類信息
-		for _, category := range article.Categories {
-			_, err := categoryStmt.Exec(
-				article.URI,
-				category.URI,
-				category.Label,
-				category.Score,
-			)
-			if err != nil {
-				tx.Rollback()
-				return fmt.Errorf("插入分類失敗: %v", err)
-			}
 		}
 	}
 
