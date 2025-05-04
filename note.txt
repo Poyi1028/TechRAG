@@ -1,2 +1,0 @@
-https://eventregistry.org/api/v1/article/getArticles?apiKey=86375a0f-be9b-43b1-99c8-6d4d8f152916&action=getArticles&articlesCount=10&lang=eng&articlesSortBy=rel&categoryUri=dmoz/Computers/Artificial_Intelligence&includeArticleBody=true&isDuplicateFilter=skipDuplicates
-https://eventregistry.org/api/v1/event/getEvents?apiKey=86375a0f-be9b-43b1-99c8-6d4d8f152916&eventsCount=20&lang=eng&categoryUri=dmoz/Computers/Artificial_Intelligence&isDuplicateFilter=skipDuplicates&includeEventConcepts=false&includeStoryMedoidArticle=true&includeEventStories=true
