@@ -27,7 +27,18 @@ services:
       - db
     volumes:
       - pgadmin_data:/var/lib/pgadmin
+    
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: my-qdrant
+    restart: always
+    ports:
+      - "6333:6333"  # Qdrant gRPC 端口
+      - "6334:6334"  # Qdrant HTTP API 端口
+    volumes:
+      - qdrant_data:/qdrant/storage
 
 volumes:
   postgres_data:
   pgadmin_data:
+  qdrant_data:

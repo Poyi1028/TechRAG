@@ -66,7 +66,7 @@ func fetch(c *gin.Context) {
 		"apiKey":                    apiKey,
 		"lang":                      "eng",
 		"eventsCount":               "50",
-		"eventsPage":                "2",
+		"eventsPage":                "1",
 		"categoryUri":               "dmoz/Computers/Artificial_Intelligence",
 		"includeEventStories":       "true",
 		"includeStoryMedoidArticle": "true",
