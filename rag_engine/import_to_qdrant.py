@@ -38,19 +38,21 @@ points_to_upsert = []
 for index, row in embedded_df.iterrows():
     chunk_id = row["chunk_id"]
     chunk_content = row["chunk_content"]
-    article_uri = row["article_uri"]
-    article_title = row["article_title"]
-    article_date = row["article_date"]
-    article_url = row["article_url"]
+    article_uri = row["metadata"]["article_uri"]
+    article_title = row["metadata"]["article_title"]
+    article_date = row["metadata"]["article_date"]
+    article_url = row["metadata"]["article_url"]
     embedding = row["embedding"]
 
     # --- 準備點的負責資訊 ---
-    payload = {
-        "chunk_content": chunk_content,
-        "article_uri": article_uri,
-        "article_title": article_title,
-        "article_date": article_date,
-        "article_url": article_url,
+    payload = {   
+        "metadata": {
+            "article_uri": article_uri,
+            "article_title": article_title,
+            "article_date": article_date,
+            "article_url": article_url,
+        },
+        "chunk_content": chunk_content
     }
 
     # --- 創建點的結構 ---

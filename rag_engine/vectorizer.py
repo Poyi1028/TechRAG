@@ -39,10 +39,12 @@ for index, row in df_articles.iterrows():
 
             for i, chunk in enumerate(chunks):
                 processed_chunks.append({
-                    "article_uri": article_uri,
-                    "article_title": article_title,
-                    "article_date": article_date,
-                    "article_url": article_url,
+                    "metadata": {
+                        "article_uri": article_uri,
+                        "article_title": article_title,
+                        "article_date": article_date,
+                        "article_url": article_url,
+                    },
                     "chunk_id": str(uuid.uuid4()),
                     "chunk_content": chunk,
                     "embedding": chunk_embeddings[i].tolist()
