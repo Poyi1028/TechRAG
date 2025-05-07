@@ -12,14 +12,14 @@ document.addEventListener('DOMContentLoaded', function() {
   // 初始化搜尋功能
   initSearch();
   
-  // 初始化訂閱表單
-  initSubscription();
-  
   // 初始化聊天機器人功能
   initChatBot();
   
-  // 模擬API資料載入
-  simulateDataLoading();
+  // 初始化文章模態視窗功能
+  initArticleModals();
+  
+  // 初始化載入更多按鈕
+  initLoadMoreButton();
 });
 
 // 初始化動畫效果
@@ -43,39 +43,136 @@ function initAnimations() {
 
 // 初始化趨勢卡片交互
 function initTrendCards() {
-  const trendCards = document.querySelectorAll('.glass-effect');
+  const trendCards = document.querySelectorAll('.tech-card');
   
   trendCards.forEach(card => {
-    // 添加懸停效果類
-    card.classList.add('hover-card-effect');
-    
     // 添加點擊事件
     card.addEventListener('click', function() {
       // 在實際應用中，這裡會導航到詳情頁面
       const title = this.querySelector('h3')?.textContent || '未知趨勢';
       console.log(`查看趨勢詳情: ${title}`);
+    });
+  });
+}
+
+// 初始化文章模態視窗功能
+function initArticleModals() {
+  // 文章內容數據
+  const articles = {
+    'article-1': {
+      title: 'Generative AI Drives Content Creation Revolution',
+      tag: 'Artificial Intelligence',
+      date: '2 days ago',
+      image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YWklMjBmdXR1cmV8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60',
+      content: `The latest generative AI technologies are reshaping content creation processes, influencing every area from text to visual design. Businesses across industries are adopting these tools to streamline creative workflows and generate more personalized content at scale. 
+      <br><br>
+      Companies like OpenAI, Anthropic, and Stability AI continue to release increasingly powerful models that can generate human-quality text, create photorealistic images, and even produce original music compositions. This democratization of content creation is enabling smaller organizations to compete with larger entities by producing high-quality content without massive creative teams.
+      <br><br>
+      However, concerns about intellectual property rights, content authenticity, and creative job displacement remain. Regulatory frameworks are struggling to keep pace with the rapid development of these technologies. As these AI systems continue to evolve, the boundary between human and machine-generated content is becoming increasingly blurred, raising important questions about creativity, originality, and the future of creative professions.
+      <br><br>
+      Experts predict that the next generation of generative models will focus on multimodal capabilities, allowing for seamless integration across different content types and more sophisticated understanding of context and intent. The companies that successfully implement these technologies while addressing ethical considerations will likely gain significant competitive advantages in the digital content landscape.`
+    },
+    'article-2': {
+      title: 'Metaverse Platforms Integrate Blockchain and NFT Technology',
+      tag: 'Metaverse',
+      date: '3 days ago',
+      image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bWV0YXZlcnNlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60',
+      content: `The metaverse is creating new digital asset ownership and social experiences through integration of blockchain and NFT technologies. Leading metaverse platforms are now implementing comprehensive blockchain solutions to enable true digital ownership, allowing users to buy, sell, and trade virtual assets with verifiable provenance.
+      <br><br>
+      Companies like Decentraland, The Sandbox, and Roblox are at the forefront of this integration, creating robust digital economies where users can monetize their creations and activities. These platforms are seeing significant investment from major brands eager to establish their presence in virtual worlds, with luxury fashion houses, entertainment companies, and even financial institutions purchasing virtual land and creating immersive brand experiences.
+      <br><br>
+      The technology stack supporting these metaverse platforms continues to evolve, with improvements in rendering capabilities, interoperability standards, and accessibility across devices. Additionally, advances in haptic feedback technology and VR headsets are enhancing the immersive quality of metaverse experiences, blurring the line between physical and digital realities.
+      <br><br>
+      This convergence of technologies is opening up new economic opportunities while establishing robust frameworks for digital identity and property rights in virtual worlds. As these platforms mature, they are likely to become significant channels for commerce, entertainment, education, and social interaction, fundamentally changing how people connect and conduct business in digital spaces.`
+    },
+    'article-3': {
+      title: 'Quantum Computing Breakthrough: 100 Qubit Processing Achieved',
+      tag: 'Quantum Computing',
+      date: '4 days ago',
+      image: 'https://images.unsplash.com/photo-1631776247334-82ae01bda4e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cXVhbnR1bSUyMGNvbXB1dGluZ3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
+      content: `Scientists announce a major breakthrough in quantum computing, successfully achieving stable 100-qubit computational processing. This milestone represents a significant step toward quantum advantage, where quantum computers can solve problems that classical computers cannot practically address.
+      <br><br>
+      The research team, composed of experts from leading quantum computing companies and research institutions, has developed a novel approach to qubit connectivity that significantly reduces decoherence issues that have previously limited quantum computing capabilities. This innovation allows for more complex quantum algorithms to be executed reliably, opening doors to practical applications in optimization problems, secure communications, and advanced simulations.
+      <br><br>
+      Additionally, the team has also developed new error correction techniques that maintain coherence for longer periods, potentially accelerating the timeline for practical quantum applications in cryptography, material science, and pharmaceutical research. This breakthrough comes as investments in quantum computing continue to grow, with governments and private companies worldwide recognizing its strategic importance for future technological leadership.
+      <br><br>
+      Industry analysts predict that this achievement could accelerate the timeline for quantum advantage in specific domains by several years, prompting increased investment in quantum-ready algorithms and quantum-resistant cryptography. Companies in finance, logistics, and pharmaceuticals are already exploring how to leverage this computational power for competitive advantage once these systems become commercially available.`
+    }
+  };
+  
+  // 綁定閱讀更多按鈕
+  document.querySelectorAll('.read-more-btn').forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.stopPropagation(); // 防止觸發卡片點擊事件
+      const articleId = this.getAttribute('data-article-id');
+      const article = articles[articleId];
       
-      // 模擬點擊反饋
-      this.style.transform = 'scale(0.98)';
-      setTimeout(() => {
-        this.style.transform = '';
-      }, 150);
+      document.getElementById('modal-title').innerText = article.title;
+      document.getElementById('modal-tag').innerText = article.tag;
+      document.getElementById('modal-date').innerText = article.date;
+      document.getElementById('modal-img').style.backgroundImage = `url('${article.image}')`;
+      document.getElementById('modal-content').innerHTML = article.content;
+      
+      document.getElementById('article-modal').classList.add('active');
+      document.body.style.overflow = 'hidden'; // 防止背景滾動
     });
   });
   
-  // 為"閱讀更多"按鈕添加事件
-  const readMoreButtons = document.querySelectorAll('button.text-blue-400');
-  readMoreButtons.forEach(button => {
-    button.addEventListener('click', function(e) {
-      e.stopPropagation(); // 防止觸發卡片點擊事件
-      const card = this.closest('.glass-effect');
-      const title = card.querySelector('h3')?.textContent || '未知趨勢';
-      console.log(`閱讀更多: ${title}`);
-      
-      // 模擬操作 - 在實際應用中會導航到詳情頁
-      alert(`即將閱讀: ${title}`);
+  // 綁定關閉按鈕
+  const modalClose = document.getElementById('modal-close');
+  if (modalClose) {
+    modalClose.addEventListener('click', function() {
+      document.getElementById('article-modal').classList.remove('active');
+      document.body.style.overflow = ''; // 恢復背景滾動
     });
-  });
+    
+    // 修復懸停判斷問題
+    modalClose.addEventListener('mouseenter', function() {
+      this.classList.add('hover');
+    });
+    
+    modalClose.addEventListener('mouseleave', function() {
+      this.classList.remove('hover');
+    });
+  }
+  
+  // 點擊模態視窗外部關閉
+  const articleModal = document.getElementById('article-modal');
+  if (articleModal) {
+    articleModal.addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  }
+}
+
+// 初始化載入更多按鈕
+function initLoadMoreButton() {
+  const loadMoreBtn = document.querySelector('button.bg-rainbow-animated');
+  if (loadMoreBtn) {
+    loadMoreBtn.addEventListener('click', function() {
+      // 保存原始文本
+      const originalText = this.innerHTML;
+      
+      // 顯示載入中狀態
+      this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Loading...';
+      this.classList.add('opacity-75');
+      this.disabled = true;
+      
+      // 模擬網路請求延遲
+      setTimeout(() => {
+        // 恢復按鈕文本
+        this.innerHTML = originalText;
+        this.classList.remove('opacity-75');
+        this.disabled = false;
+        
+        // 提示用戶
+        alert('All trends have been loaded. Check back later for updates!');
+      }, 1500);
+    });
+  }
 }
 
 // 初始化搜尋功能
@@ -120,54 +217,6 @@ function performSearch(query) {
   // 在實際應用中，這裡會更新DOM顯示搜尋結果
 }
 
-// 初始化訂閱表單
-function initSubscription() {
-  const subscribeForm = document.querySelector('.glass-effect input[type="email"]')?.closest('div.flex');
-  const subscribeButton = subscribeForm?.querySelector('button');
-  const emailInput = subscribeForm?.querySelector('input[type="email"]');
-  
-  if (subscribeButton && emailInput) {
-    subscribeButton.addEventListener('click', function() {
-      handleSubscription(emailInput);
-    });
-    
-    emailInput.addEventListener('keyup', function(e) {
-      if (e.key === 'Enter') {
-        handleSubscription(this);
-      }
-    });
-  }
-}
-
-// 處理訂閱
-function handleSubscription(emailInput) {
-  const email = emailInput.value.trim();
-  
-  if (!email) {
-    alert('請輸入您的電子郵件地址');
-    return;
-  }
-  
-  if (!isValidEmail(email)) {
-    alert('請輸入有效的電子郵件地址');
-    return;
-  }
-  
-  console.log(`訂閱科技趨勢報告: ${email}`);
-  
-  // 模擬API請求
-  setTimeout(() => {
-    alert(`感謝訂閱！我們將定期發送科技趨勢報告到 ${email}`);
-    emailInput.value = '';
-  }, 500);
-}
-
-// 電子郵件格式驗證
-function isValidEmail(email) {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regex.test(email);
-}
-
 // 初始化聊天機器人功能
 function initChatBot() {
   const chatToggle = document.getElementById('chat-toggle');
@@ -181,11 +230,10 @@ function initChatBot() {
   
   // 切換聊天界面顯示
   chatToggle.addEventListener('click', function() {
-    chatContainer.classList.toggle('hidden');
-    chatChevron.classList.toggle('fa-chevron-down');
-    chatChevron.classList.toggle('fa-chevron-up');
+    chatContainer.classList.toggle('active');
+    chatToggle.classList.toggle('active');
     
-    if (!chatContainer.classList.contains('hidden')) {
+    if (chatContainer.classList.contains('active')) {
       chatInput.focus();
     }
   });
@@ -240,7 +288,7 @@ function initChatBot() {
       `;
     } else {
       messageDiv.innerHTML = `
-        <div class="w-8 h-8 rounded-full flex items-center justify-center bg-gradient-to-r from-indigo-600 to-purple-600 mr-2 flex-shrink-0">
+        <div class="w-8 h-8 rounded-full flex items-center justify-center bg-rainbow-animated mr-2 flex-shrink-0">
           <i class="fas fa-robot text-white text-xs"></i>
         </div>
         <div class="bg-dark/80 rounded-lg p-3 max-w-[80%]">
@@ -278,82 +326,3 @@ function initChatBot() {
     }
   }
 }
-
-// 模擬資料載入
-function simulateDataLoading() {
-  // 模擬圖表數據
-  setTimeout(() => {
-    console.log('數據儀表板已載入');
-    
-    // 在實際應用中，這裡會使用Chart.js或D3.js繪製圖表
-    // 此處僅為模擬效果
-    
-    // 獲取圖表容器
-    const chartContainers = document.querySelectorAll('.bg-gray-800.bg-opacity-50.h-64');
-    
-    if (chartContainers.length >= 2) {
-      // 模擬第一個圖表載入完成
-      chartContainers[0].innerHTML = `
-        <div class="text-center">
-          <div class="mb-2">科技趨勢分布圖</div>
-          <div class="flex justify-around">
-            <div class="text-center">
-              <div style="width: 50px; height: 50px; background: rgba(59, 130, 246, 0.7); border-radius: 50%; margin: 0 auto;"></div>
-              <div class="mt-2">AI (45%)</div>
-            </div>
-            <div class="text-center">
-              <div style="width: 35px; height: 35px; background: rgba(16, 185, 129, 0.7); border-radius: 50%; margin: 0 auto;"></div>
-              <div class="mt-2">區塊鏈 (30%)</div>
-            </div>
-            <div class="text-center">
-              <div style="width: 25px; height: 25px; background: rgba(139, 92, 246, 0.7); border-radius: 50%; margin: 0 auto;"></div>
-              <div class="mt-2">元宇宙 (25%)</div>
-            </div>
-          </div>
-        </div>
-      `;
-      
-      // 模擬第二個圖表載入完成
-      chartContainers[1].innerHTML = `
-        <div class="p-4">
-          <div class="mb-4 text-center">趨勢成長曲線</div>
-          <div class="relative h-32">
-            <div class="absolute bottom-0 left-0 h-1 w-full bg-gray-700"></div>
-            <div class="absolute left-0 bottom-0 h-full w-0.5 bg-gray-700"></div>
-            
-            <div class="absolute bottom-4 left-[10%] h-8 w-2 bg-blue-500 rounded-t"></div>
-            <div class="absolute bottom-4 left-[20%] h-12 w-2 bg-blue-500 rounded-t"></div>
-            <div class="absolute bottom-4 left-[30%] h-20 w-2 bg-blue-500 rounded-t"></div>
-            <div class="absolute bottom-4 left-[40%] h-16 w-2 bg-blue-500 rounded-t"></div>
-            <div class="absolute bottom-4 left-[50%] h-24 w-2 bg-blue-500 rounded-t"></div>
-            <div class="absolute bottom-4 left-[60%] h-28 w-2 bg-blue-500 rounded-t"></div>
-            <div class="absolute bottom-4 left-[70%] h-20 w-2 bg-blue-500 rounded-t"></div>
-            <div class="absolute bottom-4 left-[80%] h-24 w-2 bg-blue-500 rounded-t"></div>
-            
-            <div class="absolute bottom-0 left-[10%] text-xs">Q1</div>
-            <div class="absolute bottom-0 left-[30%] text-xs">Q2</div>
-            <div class="absolute bottom-0 left-[50%] text-xs">Q3</div>
-            <div class="absolute bottom-0 left-[70%] text-xs">Q4</div>
-          </div>
-        </div>
-      `;
-    }
-  }, 1000);
-  
-  // 模擬載入更多按鈕功能
-  const loadMoreBtn = document.querySelector('button.bg-blue-600.hover\\:bg-blue-700');
-  if (loadMoreBtn) {
-    loadMoreBtn.addEventListener('click', function() {
-      this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> 載入中...';
-      
-      // 模擬網路請求延遲
-      setTimeout(() => {
-        // 恢復按鈕文本
-        this.innerHTML = '載入更多趨勢';
-        
-        // 提示用戶
-        alert('目前沒有更多趨勢可載入。請稍後再試。');
-      }, 1500);
-    });
-  }
-} 

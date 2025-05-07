@@ -3,10 +3,6 @@ import json
 from qdrant_client import QdrantClient, models
 import numpy as np
 
-# --- 設定 Qdrant 連接資訊 ---
-QDRANT_HOST = "localhost"
-QDRANT_PORT = 6333
-
 # --- 設定集合名稱和向量維度 ---
 COLLECTION_NAME = "rag_collection"
 VECTOR_DIMENSION = 384
@@ -15,7 +11,7 @@ VECTOR_DIMENSION = 384
 EMBEDDING_FILE = "embedded_chunks_for_qdrant.json"
 
 # --- 初始化 Qdrant 客戶端 ---
-client = QdrantClient(host=QDRANT_HOST, port=QDRANT_PORT)
+client = QdrantClient(host="localhost", port=6333)
 
 # --- 檢查集合是否存在，不存在則創建 ---
 try:
@@ -42,19 +38,21 @@ points_to_upsert = []
 for index, row in embedded_df.iterrows():
     chunk_id = row["chunk_id"]
     chunk_content = row["chunk_content"]
-    article_uri = row["article_uri"]
-    article_title = row["article_title"]
-    article_date = row["article_date"]
-    article_url = row["article_url"]
+    article_uri = row["metadata"]["article_uri"]
+    article_title = row["metadata"]["article_title"]
+    article_date = row["metadata"]["article_date"]
+    article_url = row["metadata"]["article_url"]
     embedding = row["embedding"]
 
     # --- 準備點的負責資訊 ---
-    payload = {
-        "chunk_content": chunk_content,
-        "article_uri": article_uri,
-        "article_title": article_title,
-        "article_date": article_date,
-        "article_url": article_url,
+    payload = {   
+        "metadata": {
+            "article_uri": article_uri,
+            "article_title": article_title,
+            "article_date": article_date,
+            "article_url": article_url,
+        },
+        "chunk_content": chunk_content
     }
 
     # --- 創建點的結構 ---

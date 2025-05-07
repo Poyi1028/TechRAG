@@ -12,11 +12,9 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#6366F1',
-                        secondary: '#10B981',
-                        dark: '#0F172A',
-                        darker: '#020617',
-                        light: '#F1F5F9'
+                        darker: '#080808',
+                        dark: '#18181B',
+                        light: '#E5E7EB',
                     }
                 }
             }
@@ -28,43 +26,43 @@
                 text-shadow: 0 2px 4px rgba(0,0,0,0.2);
             }
             .glass-effect {
-                background: rgba(15, 23, 42, 0.6);
-                backdrop-filter: blur(12px);
-                border: 1px solid rgba(99, 102, 241, 0.1);
+                background: rgba(24, 24, 27, 0.5);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(50, 50, 50, 0.2);
             }
         }
     </style>
 </head>
-<body class="bg-darker text-gray-200">
+<body class="bg-darker text-light">
     <!-- Background pattern -->
     <div class="fixed inset-0 z-0 opacity-20">
-        <div class="absolute top-0 right-0 w-1/3 h-1/3 bg-primary opacity-10 rounded-full filter blur-3xl"></div>
-        <div class="absolute bottom-0 left-0 w-1/3 h-1/3 bg-indigo-800 opacity-10 rounded-full filter blur-3xl"></div>
-        <div class="absolute top-1/2 left-1/4 w-1/4 h-1/4 bg-violet-600 opacity-5 rounded-full filter blur-3xl"></div>
+        <div class="absolute top-0 right-0 w-1/3 h-1/3 bg-gray-700 opacity-10 rounded-full filter blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-1/3 h-1/3 bg-gray-800 opacity-10 rounded-full filter blur-3xl"></div>
+        <div class="absolute top-1/2 left-1/4 w-1/4 h-1/4 bg-gray-600 opacity-5 rounded-full filter blur-3xl"></div>
     </div>
 
     <!-- Hero section -->
     <header class="relative z-10 pt-24 pb-12 px-6">
         <div class="container mx-auto text-center">
             <div class="flex items-center justify-center space-x-3 mb-8">
-                <div class="w-12 h-12 flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl shadow-lg">
+                <div class="w-12 h-12 flex items-center justify-center bg-rainbow-animated rounded-xl shadow-lg">
                     <i class="fas fa-microchip text-white text-2xl"></i>
                 </div>
                 <h1 class="text-3xl md:text-4xl font-bold">
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500">
+                    <span class="text-rainbow-animated">
                         TechRAG
                     </span>
                 </h1>
             </div>
-            <p class="text-xl md:text-2xl mb-6 max-w-3xl mx-auto text-white font-light tracking-wide">
+            <p class="text-xl md:text-2xl mb-6 max-w-3xl mx-auto text-light font-light tracking-wide">
                 Explore Tomorrow's Technology, Gain Insights into Future Trends
             </p>
             <p class="text-lg mb-10 max-w-2xl mx-auto text-gray-400 font-light">
                 Discover technological frontier dynamics through AI and RAG technology
             </p>
             <div class="relative max-w-2xl mx-auto">
-                <input type="text" placeholder="Search tech trends..." class="w-full bg-dark/60 border-gray-800 rounded-xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-white">
-                <button class="absolute right-3 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 rounded-lg p-2 transition-all">
+                <input type="text" placeholder="Search tech trends..." class="w-full bg-dark/60 border-gray-700 rounded-xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-purple-600 text-light">
+                <button class="absolute right-3 top-1/2 transform -translate-y-1/2 bg-rainbow-animated hover:opacity-90 rounded-lg p-2 transition-all">
                     <i class="fas fa-search text-white"></i>
                 </button>
             </div>
@@ -75,15 +73,15 @@
     <section class="relative z-10 py-5 px-6">
         <div class="container mx-auto">
             <div class="glass-effect rounded-xl p-4 max-w-2xl mx-auto">
-                <button id="chat-toggle" class="w-full flex items-center justify-center space-x-2 py-2 text-indigo-300 hover:text-indigo-200 transition-colors">
+                <button id="chat-toggle" class="w-full flex items-center justify-center space-x-2 py-2 text-gray-400 hover:text-light transition-colors">
                     <i class="fas fa-robot text-lg"></i>
                     <span>Chat With TechMate!</span>
                     <i class="fas fa-chevron-down ml-2" id="chat-chevron"></i>
                 </button>
-                <div id="chat-container" class="hidden mt-3 border-t border-indigo-800/30 pt-3">
+                <div id="chat-container" class="mt-3 border-t border-gray-700/50 pt-3">
                     <div id="chat-messages" class="h-64 overflow-y-auto mb-3 p-3 bg-dark/50 rounded-lg">
                         <div class="flex mb-3">
-                            <div class="w-8 h-8 rounded-full flex items-center justify-center bg-gradient-to-r from-indigo-600 to-purple-600 mr-2 flex-shrink-0">
+                            <div class="w-8 h-8 rounded-full flex items-center justify-center bg-rainbow-animated mr-2 flex-shrink-0">
                                 <i class="fas fa-robot text-white text-xs"></i>
                             </div>
                             <div class="bg-dark/80 rounded-lg p-3 max-w-[80%]">
@@ -92,8 +90,8 @@
                         </div>
                     </div>
                     <div class="flex">
-                        <input type="text" id="chat-input" placeholder="Ask about tech trends..." class="flex-1 bg-dark/50 border-gray-800 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-indigo-500 text-white">
-                        <button id="chat-send" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 rounded-r-lg px-4 transition-all">
+                        <input type="text" id="chat-input" placeholder="Ask about tech trends..." class="flex-1 bg-dark/50 border-gray-700 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-purple-600 text-light">
+                        <button id="chat-send" class="bg-rainbow-animated hover:opacity-90 rounded-r-lg px-4 transition-all">
                             <i class="fas fa-paper-plane text-white"></i>
                         </button>
                     </div>
@@ -106,85 +104,103 @@
     <section class="relative z-10 py-14 px-6">
         <div class="container mx-auto">
             <h2 class="text-2xl md:text-3xl font-bold mb-10 text-center tech-circuit">
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500">
+                <span class="text-rainbow-animated">
                     Technology Stack & Core Features
                 </span>
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Go Backend -->
-                <div class="glass-effect rounded-xl p-6 transform transition-all hover:-translate-y-2 hover:shadow-xl tech-card">
-                    <div class="flex justify-between mb-6">
-                        <div class="bg-gradient-to-br from-indigo-500 to-purple-600 w-16 h-16 rounded-xl flex items-center justify-center shadow-lg">
-                            <i class="fas fa-code text-white text-2xl"></i>
+                <div class="tech-card">
+                    <div class="card-inner-content">
+                        <div class="flex justify-between mb-6">
+                            <div class="bg-rainbow-animated w-16 h-16 rounded-xl flex items-center justify-center shadow-lg">
+                                <i class="fas fa-code text-white text-2xl"></i>
+                            </div>
+                            <img src="https://go.dev/blog/gopher/header.jpg" alt="Go Gopher" class="h-16 w-auto rounded-xl object-contain" />
                         </div>
-                        <img src="https://go.dev/blog/gopher/header.jpg" alt="Go Gopher" class="h-16 w-auto rounded-xl object-contain" />
+                        <h3 class="text-xl font-bold mb-3 text-light">Golang-Powered Backend</h3>
+                        <p class="text-gray-300 font-light">High-performance backend system built with Golang, providing exceptional speed for real-time tech trend analysis and data processing.</p>
                     </div>
-                    <h3 class="text-xl font-bold mb-3 text-white">Golang-Powered Backend</h3>
-                    <p class="text-gray-300 font-light">High-performance backend system built with Golang, providing exceptional speed for real-time tech trend analysis and data processing.</p>
                 </div>
                 
                 <!-- Event Registry API -->
-                <div class="glass-effect rounded-xl p-6 transform transition-all hover:-translate-y-2 hover:shadow-xl tech-card">
-                    <div class="flex justify-between mb-6">
-                        <div class="bg-gradient-to-br from-indigo-600 to-purple-500 w-16 h-16 rounded-xl flex items-center justify-center shadow-lg">
-                            <i class="fas fa-newspaper text-white text-2xl"></i>
+                <div class="tech-card">
+                    <div class="card-inner-content">
+                        <div class="flex justify-between mb-6">
+                            <div class="bg-rainbow-animated w-16 h-16 rounded-xl flex items-center justify-center shadow-lg">
+                                <i class="fas fa-newspaper text-white text-2xl"></i>
+                            </div>
+                            <img src="https://avatars.githubusercontent.com/u/25537390?s=200&v=4" alt="Event Registry Logo" class="h-16 w-auto rounded-xl bg-white p-2 object-contain" />
                         </div>
-                        <img src="https://avatars.githubusercontent.com/u/25537390?s=200&v=4" alt="Event Registry Logo" class="h-16 w-auto rounded-xl bg-white p-2 object-contain" />
+                        <h3 class="text-xl font-bold mb-3 text-light">Event Registry API</h3>
+                        <p class="text-gray-300 font-light">Comprehensive global news coverage through Event Registry API, continuously capturing the latest technology developments across multiple sources.</p>
                     </div>
-                    <h3 class="text-xl font-bold mb-3 text-white">Event Registry API</h3>
-                    <p class="text-gray-300 font-light">Comprehensive global news coverage through Event Registry API, continuously capturing the latest technology developments across multiple sources.</p>
                 </div>
                 
                 <!-- Database Architecture -->
-                <div class="glass-effect rounded-xl p-6 transform transition-all hover:-translate-y-2 hover:shadow-xl tech-card">
-                    <div class="flex justify-between mb-6">
-                        <div class="bg-gradient-to-br from-purple-600 to-indigo-500 w-16 h-16 rounded-xl flex items-center justify-center shadow-lg">
-                            <i class="fas fa-database text-white text-2xl"></i>
+                <div class="tech-card">
+                    <div class="card-inner-content">
+                        <div class="flex justify-between mb-6">
+                            <div class="bg-rainbow-animated w-16 h-16 rounded-xl flex items-center justify-center shadow-lg">
+                                <i class="fas fa-database text-white text-2xl"></i>
+                            </div>
+                            <div class="flex gap-8">
+                                <img src="https://www.postgresql.org/media/img/about/press/elephant.png" alt="PostgreSQL Elephant" class="h-16 w-auto object-contain" />
+                                <img src="https://avatars.githubusercontent.com/u/73504361?s=280&v=4" alt="Qdrant Logo" class="h-16 w-auto rounded-xl bg-white p-2 object-contain" />
+                            </div>
                         </div>
-                        <div class="flex gap-8">
-                            <img src="https://www.postgresql.org/media/img/about/press/elephant.png" alt="PostgreSQL Elephant" class="h-16 w-auto object-contain" />
-                            <img src="https://avatars.githubusercontent.com/u/73504361?s=280&v=4" alt="Qdrant Logo" class="h-16 w-auto rounded-xl bg-white p-2 object-contain" />
-                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-light">Advanced Database Architecture</h3>
+                        <p class="text-gray-300 font-light">Dual database system combining PostgreSQL for structured data with Qdrant vector database for semantic search, enabling similarity-based content discovery.</p>
                     </div>
-                    <h3 class="text-xl font-bold mb-3 text-white">Advanced Database Architecture</h3>
-                    <p class="text-gray-300 font-light">Dual database system combining PostgreSQL for structured data with Qdrant vector database for semantic search, enabling similarity-based content discovery.</p>
                 </div>
                 
                 <!-- Visualization -->
-                <div class="glass-effect rounded-xl p-6 transform transition-all hover:-translate-y-2 hover:shadow-xl tech-card">
-                    <div class="flex justify-between mb-6">
-                        <div class="bg-gradient-to-br from-purple-600 to-indigo-500 w-16 h-16 rounded-xl flex items-center justify-center shadow-lg">
-                            <i class="fas fa-file-alt text-white text-2xl"></i>
+                <div class="tech-card">
+                    <div class="card-inner-content">
+                        <div class="flex justify-between mb-6">
+                            <div class="bg-rainbow-animated w-16 h-16 rounded-xl flex items-center justify-center shadow-lg">
+                                <i class="fas fa-file-alt text-white text-2xl"></i>
+                            </div>
+                            <img src="https://huggingface.co/datasets/huggingface/brand-assets/resolve/main/hf-logo-with-title.png" alt="Hugging Face Logo" class="h-16 w-auto rounded-xl bg-white p-2 object-contain" />
                         </div>
-                        <img src="https://huggingface.co/datasets/huggingface/brand-assets/resolve/main/hf-logo-with-title.png" alt="Hugging Face Logo" class="h-16 w-auto rounded-xl bg-white p-2 object-contain" />
+                        <h3 class="text-xl font-bold mb-3 text-light">Article Summarization</h3>
+                        <p class="text-gray-300 font-light">Leveraging BART-large-CNN model, available on Hugging Face, for automated key information extraction and concise, accurate summarization of tech articles.</p>
                     </div>
-                    <h3 class="text-xl font-bold mb-3 text-white">Article Summarization</h3>
-                    <p class="text-gray-300 font-light">Leveraging BART-large-CNN model, available on Hugging Face, for automated key information extraction and concise, accurate summarization of tech articles.</p>
                 </div>
 
                 <!-- RAG -->
-                <div class="glass-effect rounded-xl p-6 transform transition-all hover:-translate-y-2 hover:shadow-xl tech-card">
-                    <div class="flex justify-between mb-6">
-                        <div class="bg-gradient-to-br from-indigo-600 to-purple-500 w-16 h-16 rounded-xl flex items-center justify-center shadow-lg">
-                            <i class="fas fa-brain text-white text-2xl"></i>
+                <div class="tech-card">
+                    <div class="card-inner-content">
+                        <div class="flex justify-between mb-6">
+                            <div class="bg-rainbow-animated w-16 h-16 rounded-xl flex items-center justify-center shadow-lg">
+                                <i class="fas fa-brain text-white text-2xl"></i>
+                            </div>
+                            <img src="https://user-images.githubusercontent.com/6216945/224575138-a1c3e3ad-0831-4717-aae2-ed185f96411d.png" alt="RAG Architecture" class="h-16 w-auto rounded-xl object-contain" />
                         </div>
-                        <img src="https://user-images.githubusercontent.com/6216945/224575138-a1c3e3ad-0831-4717-aae2-ed185f96411d.png" alt="RAG Architecture" class="h-16 w-auto rounded-xl object-contain" />
+                        <h3 class="text-xl font-bold mb-3 text-light">Retrieval Augmented Generation</h3>
+                        <p class="text-gray-300 font-light">Employing RAG technology to extract key data from vast information sources, ensuring timeliness and accuracy of insights through contextual information retrieval.</p>
                     </div>
-                    <h3 class="text-xl font-bold mb-3 text-white">Retrieval Augmented Generation</h3>
-                    <p class="text-gray-300 font-light">Employing RAG technology to extract key data from vast information sources, ensuring timeliness and accuracy of insights through contextual information retrieval.</p>
                 </div>
 
                 <!-- LLM -->
-                <div class="glass-effect rounded-xl p-6 transform transition-all hover:-translate-y-2 hover:shadow-xl tech-card">
-                    <div class="flex justify-between mb-6">
-                        <div class="bg-gradient-to-br from-indigo-500 to-purple-600 w-16 h-16 rounded-xl flex items-center justify-center shadow-lg">
-                            <i class="fas fa-robot text-white text-2xl"></i>
+                <div class="tech-card">
+                    <div class="card-inner-content">
+                        <div class="flex justify-between mb-6">
+                            <div class="bg-rainbow-animated w-16 h-16 rounded-xl flex items-center justify-center shadow-lg">
+                                <i class="fas fa-robot text-white text-2xl"></i>
+                            </div>
+                            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/c31566130735783.6186962073880.png" alt="LLM Brain" class="h-16 w-auto rounded-xl object-contain" />
                         </div>
-                        <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/c31566130735783.6186962073880.png" alt="LLM Brain" class="h-16 w-auto rounded-xl object-contain" />
+                        <h3 class="text-xl font-bold mb-3 text-light">TechMate Chatbot</h3>
+                        <p class="text-gray-300 font-light">Utilizing LLM technology combined with RAG to build an AI chatbot based on LLaMA3, with which you can discuss technical details.</p>
                     </div>
-                    <h3 class="text-xl font-bold mb-3 text-white">TechMate Chatbot</h3>
-                    <p class="text-gray-300 font-light">Utilizing LLM technology combined with RAG to build an AI chatbot based on LLaMA3, with which you can discuss technical details.</p>
                 </div>
+            </div>
+            <div class="text-center mt-12">
+                <button class="bg-rainbow-animated hover:opacity-90 px-8 py-3 rounded-lg transition-all shadow-lg flex items-center mx-auto text-white">
+                    <span>Load More Trends</span>
+                    <i class="fas fa-angle-down ml-2"></i>
+                </button>
             </div>
         </div>
     </section>
@@ -195,15 +211,15 @@
             <div class="flex items-center justify-between mb-10">
                 <div class="w-1/4 lg:w-1/3"></div>
                 <h2 class="text-2xl md:text-3xl font-bold text-center tech-circuit">
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500">
+                    <span class="text-rainbow-animated">
                         Popular Tech Trends
                     </span>
                 </h2>
                 <div class="flex justify-end space-x-2 w-1/4 lg:w-1/3">
-                    <button class="bg-dark hover:bg-gray-800 rounded-lg px-4 py-2 transition-colors border border-gray-800">
+                    <button class="bg-dark hover:bg-dark/80 rounded-lg px-4 py-2 transition-colors border border-gray-700 text-gray-300 hover:text-light">
                         <i class="fas fa-filter mr-2"></i>Filter
                     </button>
-                    <button class="bg-dark hover:bg-gray-800 rounded-lg px-4 py-2 transition-colors border border-gray-800">
+                    <button class="bg-dark hover:bg-dark/80 rounded-lg px-4 py-2 transition-colors border border-gray-700 text-gray-300 hover:text-light">
                         Latest
                         <i class="fas fa-chevron-down ml-2"></i>
                     </button>
@@ -211,111 +227,65 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Trend card 1 -->
-                <div class="glass-effect rounded-xl overflow-hidden transform transition-all hover:-translate-y-2 hover:shadow-xl tech-card">
-                    <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YWklMjBmdXR1cmV8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60')"></div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="bg-indigo-900 text-indigo-200 text-xs px-3 py-1 rounded-lg data-tag">Artificial Intelligence</span>
-                            <span class="text-gray-400 text-sm">2 days ago</span>
-                        </div>
-                        <h3 class="text-xl font-bold mb-3 text-white">Generative AI Drives Content Creation Revolution</h3>
-                        <p class="text-gray-300 mb-4 font-light">The latest generative AI technologies are reshaping content creation processes, influencing every area from text to visual design...</p>
-                        <div class="flex justify-between items-center">
-                            <div></div>
-                            <button class="text-indigo-400 hover:text-indigo-300 flex items-center">
-                                Read More <i class="fas fa-arrow-right ml-1 text-xs"></i>
-                            </button>
+                <div class="tech-card">
+                    <div class="card-inner-content">
+                        <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YWklMjBmdXR1cmV8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60')"></div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="bg-gray-700 text-gray-300 text-xs px-3 py-1 rounded-lg data-tag">Artificial Intelligence</span>
+                                <span class="text-gray-400 text-sm">2 days ago</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 text-light">Generative AI Drives Content Creation Revolution</h3>
+                            <p class="text-gray-300 mb-4 font-light text-truncate">The latest generative AI technologies are reshaping content creation processes, influencing every area from text to visual design. Businesses across industries are adopting these tools to streamline creative workflows and generate more personalized content at scale. As these AI systems continue to evolve, the boundary between human and machine-generated content is becoming increasingly blurred, raising important questions about creativity, originality, and the future of creative professions.</p>
+                            <div class="flex justify-between items-center">
+                                <div></div>
+                                <button class="text-gray-400 hover:text-light flex items-center read-more-btn" data-article-id="article-1">
+                                    Read More <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Trend card 2 -->
-                <div class="glass-effect rounded-xl overflow-hidden transform transition-all hover:-translate-y-2 hover:shadow-xl tech-card">
-                    <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bWV0YXZlcnNlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60')"></div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="bg-purple-900 text-purple-200 text-xs px-3 py-1 rounded-lg data-tag">Metaverse</span>
-                            <span class="text-gray-400 text-sm">3 days ago</span>
-                        </div>
-                        <h3 class="text-xl font-bold mb-3 text-white">Metaverse Platforms Integrate Blockchain and NFT Technology</h3>
-                        <p class="text-gray-300 mb-4 font-light">The metaverse is creating new digital asset ownership and social experiences through integration of blockchain and NFT technologies...</p>
-                        <div class="flex justify-between items-center">
-                            <div></div>
-                            <button class="text-indigo-400 hover:text-indigo-300 flex items-center">
-                                Read More <i class="fas fa-arrow-right ml-1 text-xs"></i>
-                            </button>
+                <div class="tech-card">
+                    <div class="card-inner-content">
+                        <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bWV0YXZlcnNlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60')"></div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="bg-gray-700 text-gray-300 text-xs px-3 py-1 rounded-lg data-tag">Metaverse</span>
+                                <span class="text-gray-400 text-sm">3 days ago</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 text-light">Metaverse Platforms Integrate Blockchain and NFT Technology</h3>
+                            <p class="text-gray-300 mb-4 font-light text-truncate">The metaverse is creating new digital asset ownership and social experiences through integration of blockchain and NFT technologies. Leading metaverse platforms are now implementing comprehensive blockchain solutions to enable true digital ownership, allowing users to buy, sell, and trade virtual assets with verifiable provenance. This convergence of technologies is opening up new economic opportunities while establishing robust frameworks for digital identity and property rights in virtual worlds.</p>
+                            <div class="flex justify-between items-center">
+                                <div></div>
+                                <button class="text-gray-400 hover:text-light flex items-center read-more-btn" data-article-id="article-2">
+                                    Read More <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Trend card 3 -->
-                <div class="glass-effect rounded-xl overflow-hidden transform transition-all hover:-translate-y-2 hover:shadow-xl tech-card">
-                    <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1631776247334-82ae01bda4e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cXVhbnR1bSUyMGNvbXB1dGluZ3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60')"></div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="bg-blue-900 text-blue-200 text-xs px-3 py-1 rounded-lg data-tag">Quantum Computing</span>
-                            <span class="text-gray-400 text-sm">4 days ago</span>
+                <div class="tech-card">
+                    <div class="card-inner-content">
+                        <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1631776247334-82ae01bda4e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cXVhbnR1bSUyMGNvbXB1dGluZ3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60')"></div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="bg-gray-700 text-gray-300 text-xs px-3 py-1 rounded-lg data-tag">Quantum Computing</span>
+                                <span class="text-gray-400 text-sm">4 days ago</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 text-light">Quantum Computing Breakthrough: 100 Qubit Processing Achieved</h3>
+                            <p class="text-gray-300 mb-4 font-light text-truncate">Scientists announce a major breakthrough in quantum computing, successfully achieving stable 100-qubit computational processing. This milestone represents a significant step toward quantum advantage, where quantum computers can solve problems that classical computers cannot practically address. The research team has also developed new error correction techniques that maintain coherence for longer periods, potentially accelerating the timeline for practical quantum applications in cryptography, material science, and pharmaceutical research.</p>
+                            <div class="flex justify-between items-center">
+                                <div></div>
+                                <button class="text-gray-400 hover:text-light flex items-center read-more-btn" data-article-id="article-3">
+                                    Read More <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                                </button>
+                            </div>
                         </div>
-                        <h3 class="text-xl font-bold mb-3 text-white">Quantum Computing Breakthrough: 100 Qubit Processing Achieved</h3>
-                        <p class="text-gray-300 mb-4 font-light">Scientists announce a major breakthrough in quantum computing, successfully achieving stable 100-qubit computational processing...</p>
-                        <div class="flex justify-between items-center">
-                            <div></div>
-                            <button class="text-indigo-400 hover:text-indigo-300 flex items-center">
-                                Read More <i class="fas fa-arrow-right ml-1 text-xs"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="text-center mt-12">
-                <button class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 px-8 py-3 rounded-lg transition-all shadow-lg flex items-center mx-auto">
-                    <span>Load More Trends</span>
-                    <i class="fas fa-angle-down ml-2"></i>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Trend analysis dashboard -->
-    <section class="relative z-10 py-14 px-6">
-        <div class="container mx-auto">
-            <h2 class="text-2xl md:text-3xl font-bold mb-10 text-center tech-circuit">
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500">
-                    Trend Analysis Dashboard
-                </span>
-            </h2>
-            <div class="glass-effect rounded-xl p-8">
-                <div class="flex flex-col lg:flex-row gap-8">
-                    <!-- Trend pie chart -->
-                    <div class="flex-1">
-                        <h3 class="text-xl font-bold mb-4 text-white">Tech Hotspot Distribution</h3>
-                        <div class="bg-dark/80 h-64 rounded-xl flex items-center justify-center border border-gray-800">
-                            <img src="https://via.placeholder.com/600x400?text=Tech Trend Distribution" alt="Trend Distribution Chart" class="max-h-full rounded">
-                        </div>
-                    </div>
-                    <!-- Trend growth curve -->
-                    <div class="flex-1">
-                        <h3 class="text-xl font-bold mb-4 text-white">Popular Trend Growth Curves</h3>
-                        <div class="bg-dark/80 h-64 rounded-xl flex items-center justify-center border border-gray-800">
-                            <img src="https://via.placeholder.com/600x400?text=Trend Growth Curve" alt="Trend Growth Curve" class="max-h-full rounded">
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-8">
-                    <h3 class="text-xl font-bold mb-4 text-white">Popular Keywords</h3>
-                    <div class="flex flex-wrap gap-3">
-                        <span class="bg-indigo-900/50 px-3 py-1 rounded-lg text-sm data-tag border border-indigo-600/20 text-indigo-200">Artificial Intelligence</span>
-                        <span class="bg-indigo-900/40 px-3 py-1 rounded-lg text-sm data-tag border border-indigo-600/20 text-indigo-200">Quantum Computing</span>
-                        <span class="bg-indigo-900/30 px-3 py-1 rounded-lg text-sm data-tag border border-indigo-600/20 text-indigo-200">Metaverse</span>
-                        <span class="bg-purple-900/50 px-3 py-1 rounded-lg text-sm data-tag border border-purple-600/20 text-purple-200">Blockchain</span>
-                        <span class="bg-purple-900/40 px-3 py-1 rounded-lg text-sm data-tag border border-purple-600/20 text-purple-200">Machine Learning</span>
-                        <span class="bg-purple-900/30 px-3 py-1 rounded-lg text-sm data-tag border border-purple-600/20 text-purple-200">Web3</span>
-                        <span class="bg-blue-900/50 px-3 py-1 rounded-lg text-sm data-tag border border-blue-600/20 text-blue-200">AR/VR</span>
-                        <span class="bg-blue-900/40 px-3 py-1 rounded-lg text-sm data-tag border border-blue-600/20 text-blue-200">Biotechnology</span>
-                        <span class="bg-blue-900/30 px-3 py-1 rounded-lg text-sm data-tag border border-blue-600/20 text-blue-200">Space Exploration</span>
-                        <span class="bg-indigo-900/50 px-3 py-1 rounded-lg text-sm data-tag border border-indigo-600/20 text-indigo-200">Autonomous Driving</span>
-                        <span class="bg-purple-900/50 px-3 py-1 rounded-lg text-sm data-tag border border-purple-600/20 text-purple-200">Green Energy</span>
-                        <span class="bg-blue-900/50 px-3 py-1 rounded-lg text-sm data-tag border border-blue-600/20 text-blue-200">Smart Cities</span>
                     </div>
                 </div>
             </div>
@@ -324,9 +294,23 @@
 
     <!-- Footer copyright -->
     <footer class="relative z-10 py-8 px-6 text-center text-gray-500 text-sm">
-        <div class="w-12 h-1 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full mx-auto mb-4"></div>
+        <div class="w-12 h-1 bg-rainbow-animated rounded-full mx-auto mb-4"></div>
         <p>© 2025 TechRAG. Tech Trend Detection Platform</p>
     </footer>
+
+    <!-- 添加模態視窗 -->
+    <div class="modal-overlay" id="article-modal">
+        <div class="modal-content relative">
+            <div class="modal-close" id="modal-close">
+                <i class="fas fa-times text-gray-400"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-light modal-title" id="modal-title"></h2>
+            <div id="modal-tag" class="bg-gray-700 text-gray-300 text-xs px-3 py-1 rounded-lg inline-block mb-4"></div>
+            <div id="modal-date" class="text-gray-400 text-sm mb-6"></div>
+            <div class="modal-img h-64 bg-cover bg-center rounded-xl mb-6" id="modal-img"></div>
+            <p class="text-gray-300 leading-relaxed" id="modal-content"></p>
+        </div>
+    </div>
 
     <!-- Main JavaScript -->
     <script src="script.js"></script>
