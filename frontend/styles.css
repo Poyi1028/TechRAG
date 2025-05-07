@@ -12,10 +12,10 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes glow {
-  0% { box-shadow: 0 0 5px rgba(99, 102, 241, 0.3); }
-  50% { box-shadow: 0 0 15px rgba(99, 102, 241, 0.5); }
-  100% { box-shadow: 0 0 5px rgba(99, 102, 241, 0.3); }
+@keyframes animatedGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* 自定義類別 */
@@ -27,53 +27,75 @@
   animation: fadeIn 0.7s ease-out forwards;
 }
 
-.animate-glow {
-  animation: glow 2.5s infinite ease-in-out;
-}
-
+/* 卡片樣式與漸層效果 */
 .tech-card {
+  /* 用於實現漸層邊框的技巧：padding 將成為邊框的空間 */
+  padding: 3px; /* 邊框的厚度 */
+  border-radius: 16px; /* 外部圓角，比內部稍大一點 */
+  background: transparent; /* 初始時透明，懸停時顯示漸層 */
+  transition: background 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
   position: relative;
-  overflow: hidden;
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: visible;
+  transform: translateY(0); /* 初始位置 */
 }
 
-.tech-card::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    to bottom right,
-    rgba(99, 102, 241, 0.03),
-    rgba(168, 85, 247, 0.03)
-  );
-  transform: rotate(45deg);
-  z-index: -1;
-  transition: all 0.5s ease;
+.tech-card:hover {
+  /* 懸停時的漸層背景，看起來像邊框 */
+  background: linear-gradient(135deg, #B82FE0, #E73C7E, #F47C30, #FDCB52, #5BE7C4);
+  transform: translateY(-10px); /* 懸停時上移 */
 }
 
-.tech-card:hover::before {
-  transform: rotate(45deg) translateY(-15%);
+.tech-card:active {
+  transform: translateY(-5px); /* 點擊時稍微下降，增加互動感 */
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* 卡片內容容器 */
+.card-inner-content {
+  background-color: #1A1A1A; /* 卡片實際背景色，比 body 稍亮 */
+  padding: 25px;
+  border-radius: 13px; /* 內部圓角 (外部圓角 - padding) */
+  height: 100%; /* 確保填滿 .card 的 padding box */
+  box-sizing: border-box;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* 卡片陰影 */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* 確保子元素不會超出圓角 */
+  transition: box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tech-card:hover .card-inner-content {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); /* 懸停時增強陰影效果 */
+}
+
+/* 修正 trend 卡片的圖片樣式 */
+.card-inner-content .h-48 {
+  margin: -25px -25px 0; /* 抵消父元素的 padding */
+  border-top-left-radius: 13px; /* 上方圓角與卡片一致 */
+  border-top-right-radius: 13px; /* 上方圓角與卡片一致 */
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tech-card:hover .card-inner-content .h-48 {
+  transform: scale(1.03); /* 懸停時圖片輕微放大，增加視覺效果 */
 }
 
 /* 定制滾動條 */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.3);
+  background: rgba(24, 24, 27, 0.3);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(99, 102, 241, 0.3);
+  background: rgba(60, 60, 60, 0.5);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(99, 102, 241, 0.5);
+  background: rgba(80, 80, 80, 0.7);
 }
 
 /* 科技風格裝飾元素 */
@@ -86,7 +108,7 @@
   position: absolute;
   width: 60px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.7), rgba(168, 85, 247, 0.7), transparent);
+  background: linear-gradient(90deg, transparent, rgba(100, 100, 100, 0.5), rgba(120, 120, 120, 0.5), transparent);
   bottom: -8px;
   left: 50%;
   transform: translateX(-50%);
@@ -104,8 +126,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.03), transparent 70%),
-              radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.03), transparent 70%);
+  background: radial-gradient(circle at top right, rgba(50, 50, 150, 0.02), transparent 70%),
+              radial-gradient(circle at bottom left, rgba(100, 50, 150, 0.02), transparent 70%);
   z-index: -1;
 }
 
@@ -116,78 +138,39 @@
 
 .hover-card-effect:hover {
   transform: translateY(-8px);
-  box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(99, 102, 241, 0.1);
-}
-
-/* 數據標籤動態效果 */
-.data-tag {
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.data-tag::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.07), transparent);
-  transition: all 0.5s ease;
-}
-
-.data-tag:hover {
-  box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
-}
-
-.data-tag:hover::after {
-  left: 100%;
-}
-
-/* 數據指標效果 */
-.data-indicator {
-  position: relative;
-  padding-left: 15px;
-}
-
-.data-indicator::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #6366F1, #A855F7);
+  box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(70, 70, 70, 0.15);
 }
 
 /* 簡約搜尋框 */
 input[type="text"], input[type="email"] {
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(99, 102, 241, 0.1);
+  background: rgba(24, 24, 27, 0.6);
+  border: 1px solid rgba(50, 50, 50, 0.3);
   transition: all 0.3s ease;
-  caret-color: rgba(99, 102, 241, 0.8);
+  caret-color: rgba(229, 231, 235, 0.8);
+  color: inherit;
+}
+
+input[type="text"]::placeholder, input[type="email"]::placeholder {
+  color: rgba(156, 163, 175, 0.7);
 }
 
 input[type="text"]:focus, input[type="email"]:focus {
-  background: rgba(15, 23, 42, 0.7);
-  border-color: rgba(99, 102, 241, 0.3);
-  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.1), 0 5px 15px rgba(0, 0, 0, 0.2);
+  background: rgba(24, 24, 27, 0.7);
+  border-color: rgba(80, 80, 80, 0.4);
+  box-shadow: 0 0 0 1px rgba(80, 80, 80, 0.2), 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* 玻璃態效果調整 */
 .glass-effect {
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(99, 102, 241, 0.1);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  background: rgba(24, 24, 27, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(50, 50, 50, 0.2);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
   transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .glass-effect:hover {
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(70, 70, 70, 0.3);
 }
 
 /* 按鈕效果 */
@@ -199,17 +182,24 @@ button:active {
   transform: scale(0.97);
 }
 
-/* 漸變文字 */
-.text-gradient {
-  background: linear-gradient(to right, #6366F1, #A855F7);
+/* 用於文字的動態彩虹漸層 - 更新顏色 */
+.text-rainbow-animated {
+  background: linear-gradient(135deg,#FF8C00 0%, #8A2BE2 30%, #00BFFF 100%);
+  background-size: 125% 125%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
+/* 用於背景的動態彩虹漸層 - 更新顏色 */
+.bg-rainbow-animated {
+  background: linear-gradient(135deg,#FF8C00 0%,  #8A2BE2 30%, #00BFFF 100%);
+  background-size: 125% 125%;
+}
+
 /* 高級陰影效果 */
 .premium-shadow {
-  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(99, 102, 241, 0.1);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(60, 60, 60, 0.15);
 }
 
 /* 響應式調整 */
@@ -226,4 +216,115 @@ button:active {
     width: 3px;
     height: 3px;
   }
+}
+
+/* 更新 body 預設樣式 */
+body {
+  background-color: #080808;
+  color: #E5E7EB;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+/* Chat 視窗展開動畫 */
+#chat-container {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease-in-out, padding 0.4s ease;
+  opacity: 0;
+  padding-top: 0;
+  border-top: 1px solid rgba(70, 70, 70, 0.3);
+  border-top-width: 0;
+}
+
+#chat-container.active {
+  max-height: 400px;
+  opacity: 1;
+  padding-top: 1rem;
+  border-top-width: 1px;
+}
+
+#chat-chevron {
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#chat-toggle.active #chat-chevron {
+  transform: rotate(-180deg);
+}
+
+/* 模態視窗樣式 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  background-color: #1A1A1A;
+  border-radius: 16px;
+  padding: 25px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 85vh;
+  overflow-y: auto;
+  transform: translateY(25px);
+  opacity: 0;
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(60, 60, 60, 0.3);
+}
+
+.modal-overlay.active .modal-content {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* 模態視窗關閉按鈕 */
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(60, 60, 60, 0.3);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.modal-close:hover, .modal-close.hover {
+  background: rgba(80, 80, 80, 0.5);
+}
+
+.modal-title {
+  padding-right: 30px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(60, 60, 60, 0.3);
+}
+
+.text-truncate {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 } 
