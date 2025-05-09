@@ -12,7 +12,7 @@
 
 /* 灰白漸層文字 */
 .text-gray-gradient {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 1), rgba(200, 200, 200, 0.9));
+  background: linear-gradient(135deg, rgba(255, 255, 255, 1), rgba(150, 150, 150, 0.9));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -68,7 +68,7 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: visible;
   transition: box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   position: relative;
   z-index: 1;
@@ -84,7 +84,7 @@
 }
 
 .tech-card:hover .card-inner-content .flex .fas {
-  transform: scale(1.2);
+  transform: scale(1.1);
   background: linear-gradient(135deg, #FF8C00 0%, #8A2BE2 30%, #00BFFF 100%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -114,7 +114,9 @@
 }
 
 .tech-card:hover .card-inner-content .h-48 {
-  transform: scale(1.05);
+  /* 移除縮放效果，改為輕微的亮度提升 */
+  transform: none;
+  filter: brightness(1.2);
 }
 
 .tech-card:hover .card-inner-content .h-48::after {
@@ -139,6 +141,41 @@
 
 .tech-card:hover p {
   color: rgba(255, 255, 255, 0.9);
+}
+
+/* Read More 按鈕漸層效果 */
+.read-more-btn {
+  transition: background 0.3s ease, transform 0.3s ease;
+  position: relative;
+  overflow: visible;
+  padding-right: 10px;
+}
+
+/* 箭頭初始狀態 */
+.read-more-btn .fa-arrow-right {
+  position: relative;
+  left: 0;
+  transition: left 0.6s cubic-bezier(0.22, 1, 0.36, 1), background 0.5s ease, color 0.5s ease;
+}
+
+/* 確保包含 Read More 的容器不會裁切內容 */
+.tech-card .flex.justify-between.items-center {
+  overflow: visible;
+}
+
+.tech-card:hover .read-more-btn {
+  background: linear-gradient(135deg, #FF8C00 0%, #8A2BE2 30%, #00BFFF 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.tech-card:hover .read-more-btn .fa-arrow-right {
+  background: linear-gradient(135deg, #FF8C00 0%, #8A2BE2 30%, #00BFFF 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  left: 5px; /* 使用 left 屬性實現位移動畫 */
 }
 
 /* 定制滾動條 */

@@ -44,9 +44,22 @@ function initTrendCards() {
   
   trendCards.forEach(card => {
     // 點擊卡片效果
-    card.addEventListener('click', function() {
+    card.addEventListener('click', function(e) {
+      // 不觸發卡片點擊事件，如果點擊的是閱讀更多按鈕
+      if (e.target.closest('.read-more-btn')) {
+        return;
+      }
+      
       const title = this.querySelector('h3')?.textContent || '未知趨勢';
       console.log(`查看趨勢詳情: ${title}`);
+      
+      // 獲取卡片內的閱讀更多按鈕
+      const readMoreBtn = this.querySelector('.read-more-btn');
+      
+      // 如果找到按鈕，模擬點擊它以打開模態視窗
+      if (readMoreBtn) {
+        readMoreBtn.click();
+      }
     });
   });
 }
