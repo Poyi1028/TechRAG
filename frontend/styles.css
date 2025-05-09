@@ -84,7 +84,6 @@
 }
 
 .tech-card:hover .card-inner-content .flex .fas {
-  transform: scale(1.1);
   background: linear-gradient(135deg, #FF8C00 0%, #8A2BE2 30%, #00BFFF 100%);
   -webkit-background-clip: text;
   background-clip: text;

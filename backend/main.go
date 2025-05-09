@@ -33,6 +33,10 @@ func main() {
 	// 抓取文章路由
 	r.GET("/fetch", fetch)
 
+	// 添加文章相關的API端點
+	r.GET("/articles", getArticles)          // 獲取文章列表
+	r.GET("/articles/:uri", getArticleByURI) // 獲取單篇文章詳情
+
 	// 啟動服務器
 	r.Run(":8080") // 預設在瀏覽器 localhost:8080
 }
