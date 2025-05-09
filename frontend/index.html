@@ -30,6 +30,30 @@
                 backdrop-filter: blur(10px);
                 border: 1px solid rgba(50, 50, 50, 0.2);
             }
+            .nav-link {
+                @apply relative px-4 py-2 text-gray-300 hover:text-light transition-colors;
+            }
+            .nav-link::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 2px;
+                bottom: 0;
+                left: 50%;
+                background: linear-gradient(135deg,#FF8C00 0%,  #8A2BE2 30%, #00BFFF 100%);
+                transition: all 0.3s ease;
+                transform: translateX(-50%);
+            }
+            .nav-link:hover::after {
+                width: 80%;
+            }
+            .btn-hover-effect {
+                transition: all 0.3s ease;
+            }
+            .btn-hover-effect:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 7px 14px rgba(0, 0, 0, 0.3);
+            }
         }
     </style>
 </head>
@@ -41,12 +65,13 @@
         <div class="absolute top-1/2 left-1/4 w-1/4 h-1/4 bg-gray-600 opacity-5 rounded-full filter blur-3xl"></div>
     </div>
 
-    <!-- Hero section -->
-    <header class="relative z-10 pt-24 pb-12 px-6">
-        <div class="container mx-auto text-center">
-            <div class="flex items-center justify-center space-x-3 mb-8">
-                <div class="w-12 h-12 flex items-center justify-center bg-rainbow-animated rounded-xl shadow-lg">
-                    <i class="fas fa-microchip text-white text-2xl"></i>
+    <!-- 新增導航欄 -->
+    <nav class="fixed top-0 left-0 right-0 z-50 px-6 py-3 glass-effect shadow-lg">
+        <div class="container mx-auto flex flex-wrap items-center justify-between">
+            <!-- 標誌 - 將容器設為更寬鬆，避免過於靠邊 -->
+            <div class="flex items-center space-x-3 pl-4 md:pl-8">
+                <div class="w-10 h-10 flex items-center justify-center bg-rainbow-animated rounded-xl shadow-lg">
+                    <i class="fas fa-lightbulb text-white text-xl"></i>
                 </div>
                 <h1 class="text-3xl md:text-4xl font-bold">
                     <span class="text-rainbow-animated">
@@ -54,13 +79,79 @@
                     </span>
                 </h1>
             </div>
-            <p class="text-xl md:text-2xl mb-6 max-w-3xl mx-auto text-light font-light tracking-wide">
-                Explore Tomorrow's Technology, Gain Insights into Future Trends
-            </p>
-            <p class="text-lg mb-10 max-w-2xl mx-auto text-gray-400 font-light">
-                Discover technological frontier dynamics through AI and RAG technology
-            </p>
-            <div class="relative max-w-2xl mx-auto">
+            
+            <!-- 導航鏈接 - 置中顯示 -->
+            <div class="hidden md:flex items-center justify-center space-x-8">
+                <a href="#hero" class="nav-link smooth-scroll">TechMate</a>
+                <a href="#trends" class="nav-link smooth-scroll">Trends</a>
+                <a href="#features" class="nav-link smooth-scroll">Features</a>
+                <a href="https://github.com/Poyi1028" target="_blank" class="nav-link">My GitHub</a>
+            </div>
+            
+            <!-- 搜尋欄位 - 增加寬度，右側留出空間 -->
+            <div class="relative hidden md:block w-80 pr-4 md:pr-8">
+                <input type="text" placeholder="Search tech trends..." class="w-full bg-dark/60 border-gray-700 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-600 text-light">
+                <button class="absolute right-8 top-1/2 transform -translate-y-1/2 bg-rainbow-animated hover:opacity-90 rounded-lg p-1.5 transition-all">
+                    <i class="fas fa-search text-white text-sm"></i>
+                </button>
+            </div>
+            
+            <!-- 移動版漢堡菜單 -->
+            <div class="md:hidden">
+                <button class="text-gray-300 hover:text-light">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero section -->
+    <header id="hero" class="relative z-10 pt-36 pb-12 px-6">
+        <div class="container mx-auto">
+            <div class="flex flex-col items-center justify-between">
+                <!-- 上方標語區 -->
+                <div class="w-full md:w-3/4 mb-14 text-center fade-in-section">
+                    <h2 class="text-6xl md:text-6xl font-bold tracking-wide leading-10">
+                        <span class="block mb-2 text-gray-gradient">Explore Tomorrow's Technology</span>
+                        <span class="block text-gray-gradient">Gain Insights into Future Trends</span>
+                    </h2>
+                    <p class="text-lg md:text-xl mt-6 text-gray-400 font-light">
+                        Discover technological frontier dynamics through AI and RAG technology
+                    </p>
+                </div>
+                
+                <!-- 下方聊天機器人 -->
+                <div class="w-full md:w-2/3 lg:w-1/2 fade-in-section" data-delay="200">
+                    <div class="glass-effect rounded-xl p-4">
+                        <button id="chat-toggle" class="w-full flex items-center justify-center space-x-2 py-3 text-white hover:text-light transition-colors text-xl font-medium">
+                            <i class="fas fa-robot text-xl"></i>
+                            <span>Chat With TechMate!</span>
+                            <i class="fas fa-chevron-down ml-2" id="chat-chevron"></i>
+                        </button>
+                        <div id="chat-container" class="mt-3 border-t border-gray-700/50 pt-3">
+                            <div id="chat-messages" class="h-64 overflow-y-auto mb-3 p-3 bg-dark/50 rounded-lg">
+                                <div class="flex mb-3">
+                                    <div class="w-8 h-8 rounded-full flex items-center justify-center bg-rainbow-animated mr-2 flex-shrink-0">
+                                        <i class="fas fa-robot text-white text-xs"></i>
+                                    </div>
+                                    <div class="bg-dark/80 rounded-lg p-3 max-w-[80%]">
+                                        <p class="text-gray-300">Hello! What can I help you for understanding the latest tech trends?</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <input type="text" id="chat-input" placeholder="Ask about tech trends..." class="flex-1 bg-dark/50 border-gray-700 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-purple-600 text-light">
+                                <button id="chat-send" class="bg-rainbow-animated hover:opacity-90 rounded-r-lg px-4 transition-all">
+                                    <i class="fas fa-paper-plane text-white"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 搜尋欄位僅在移動版顯示 -->
+            <div class="relative max-w-2xl mx-auto md:hidden mt-8 fade-in-section" data-delay="300">
                 <input type="text" placeholder="Search tech trends..." class="w-full bg-dark/60 border-gray-700 rounded-xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-purple-600 text-light">
                 <button class="absolute right-3 top-1/2 transform -translate-y-1/2 bg-rainbow-animated hover:opacity-90 rounded-lg p-2 transition-all">
                     <i class="fas fa-search text-white"></i>
@@ -69,148 +160,12 @@
         </div>
     </header>
 
-    <!-- Chatbot Section -->
-    <section class="relative z-10 py-5 px-6">
-        <div class="container mx-auto">
-            <div class="glass-effect rounded-xl p-4 max-w-2xl mx-auto">
-                <button id="chat-toggle" class="w-full flex items-center justify-center space-x-2 py-2 text-gray-400 hover:text-light transition-colors">
-                    <i class="fas fa-robot text-lg"></i>
-                    <span>Chat With TechMate!</span>
-                    <i class="fas fa-chevron-down ml-2" id="chat-chevron"></i>
-                </button>
-                <div id="chat-container" class="mt-3 border-t border-gray-700/50 pt-3">
-                    <div id="chat-messages" class="h-64 overflow-y-auto mb-3 p-3 bg-dark/50 rounded-lg">
-                        <div class="flex mb-3">
-                            <div class="w-8 h-8 rounded-full flex items-center justify-center bg-rainbow-animated mr-2 flex-shrink-0">
-                                <i class="fas fa-robot text-white text-xs"></i>
-                            </div>
-                            <div class="bg-dark/80 rounded-lg p-3 max-w-[80%]">
-                                <p class="text-gray-300">Hello! What can I help you for understanding the latest tech trends?</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex">
-                        <input type="text" id="chat-input" placeholder="Ask about tech trends..." class="flex-1 bg-dark/50 border-gray-700 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-purple-600 text-light">
-                        <button id="chat-send" class="bg-rainbow-animated hover:opacity-90 rounded-r-lg px-4 transition-all">
-                            <i class="fas fa-paper-plane text-white"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Tech stack -->
-    <section class="relative z-10 py-14 px-6">
-        <div class="container mx-auto">
-            <h2 class="text-2xl md:text-3xl font-bold mb-10 text-center tech-circuit">
-                <span class="text-rainbow-animated">
-                    Technology Stack & Core Features
-                </span>
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Go Backend -->
-                <div class="tech-card">
-                    <div class="card-inner-content">
-                        <div class="flex justify-between mb-6">
-                            <div class="bg-rainbow-animated w-16 h-16 rounded-xl flex items-center justify-center shadow-lg">
-                                <i class="fas fa-code text-white text-2xl"></i>
-                            </div>
-                            <img src="https://go.dev/blog/gopher/header.jpg" alt="Go Gopher" class="h-16 w-auto rounded-xl object-contain" />
-                        </div>
-                        <h3 class="text-xl font-bold mb-3 text-light">Golang-Powered Backend</h3>
-                        <p class="text-gray-300 font-light">High-performance backend system built with Golang, providing exceptional speed for real-time tech trend analysis and data processing.</p>
-                    </div>
-                </div>
-                
-                <!-- Event Registry API -->
-                <div class="tech-card">
-                    <div class="card-inner-content">
-                        <div class="flex justify-between mb-6">
-                            <div class="bg-rainbow-animated w-16 h-16 rounded-xl flex items-center justify-center shadow-lg">
-                                <i class="fas fa-newspaper text-white text-2xl"></i>
-                            </div>
-                            <img src="https://avatars.githubusercontent.com/u/25537390?s=200&v=4" alt="Event Registry Logo" class="h-16 w-auto rounded-xl bg-white p-2 object-contain" />
-                        </div>
-                        <h3 class="text-xl font-bold mb-3 text-light">Event Registry API</h3>
-                        <p class="text-gray-300 font-light">Comprehensive global news coverage through Event Registry API, continuously capturing the latest technology developments across multiple sources.</p>
-                    </div>
-                </div>
-                
-                <!-- Database Architecture -->
-                <div class="tech-card">
-                    <div class="card-inner-content">
-                        <div class="flex justify-between mb-6">
-                            <div class="bg-rainbow-animated w-16 h-16 rounded-xl flex items-center justify-center shadow-lg">
-                                <i class="fas fa-database text-white text-2xl"></i>
-                            </div>
-                            <div class="flex gap-8">
-                                <img src="https://www.postgresql.org/media/img/about/press/elephant.png" alt="PostgreSQL Elephant" class="h-16 w-auto object-contain" />
-                                <img src="https://avatars.githubusercontent.com/u/73504361?s=280&v=4" alt="Qdrant Logo" class="h-16 w-auto rounded-xl bg-white p-2 object-contain" />
-                            </div>
-                        </div>
-                        <h3 class="text-xl font-bold mb-3 text-light">Advanced Database Architecture</h3>
-                        <p class="text-gray-300 font-light">Dual database system combining PostgreSQL for structured data with Qdrant vector database for semantic search, enabling similarity-based content discovery.</p>
-                    </div>
-                </div>
-                
-                <!-- Visualization -->
-                <div class="tech-card">
-                    <div class="card-inner-content">
-                        <div class="flex justify-between mb-6">
-                            <div class="bg-rainbow-animated w-16 h-16 rounded-xl flex items-center justify-center shadow-lg">
-                                <i class="fas fa-file-alt text-white text-2xl"></i>
-                            </div>
-                            <img src="https://huggingface.co/datasets/huggingface/brand-assets/resolve/main/hf-logo-with-title.png" alt="Hugging Face Logo" class="h-16 w-auto rounded-xl bg-white p-2 object-contain" />
-                        </div>
-                        <h3 class="text-xl font-bold mb-3 text-light">Article Summarization</h3>
-                        <p class="text-gray-300 font-light">Leveraging BART-large-CNN model, available on Hugging Face, for automated key information extraction and concise, accurate summarization of tech articles.</p>
-                    </div>
-                </div>
-
-                <!-- RAG -->
-                <div class="tech-card">
-                    <div class="card-inner-content">
-                        <div class="flex justify-between mb-6">
-                            <div class="bg-rainbow-animated w-16 h-16 rounded-xl flex items-center justify-center shadow-lg">
-                                <i class="fas fa-brain text-white text-2xl"></i>
-                            </div>
-                            <img src="https://user-images.githubusercontent.com/6216945/224575138-a1c3e3ad-0831-4717-aae2-ed185f96411d.png" alt="RAG Architecture" class="h-16 w-auto rounded-xl object-contain" />
-                        </div>
-                        <h3 class="text-xl font-bold mb-3 text-light">Retrieval Augmented Generation</h3>
-                        <p class="text-gray-300 font-light">Employing RAG technology to extract key data from vast information sources, ensuring timeliness and accuracy of insights through contextual information retrieval.</p>
-                    </div>
-                </div>
-
-                <!-- LLM -->
-                <div class="tech-card">
-                    <div class="card-inner-content">
-                        <div class="flex justify-between mb-6">
-                            <div class="bg-rainbow-animated w-16 h-16 rounded-xl flex items-center justify-center shadow-lg">
-                                <i class="fas fa-robot text-white text-2xl"></i>
-                            </div>
-                            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/c31566130735783.6186962073880.png" alt="LLM Brain" class="h-16 w-auto rounded-xl object-contain" />
-                        </div>
-                        <h3 class="text-xl font-bold mb-3 text-light">TechMate Chatbot</h3>
-                        <p class="text-gray-300 font-light">Utilizing LLM technology combined with RAG to build an AI chatbot based on LLaMA3, with which you can discuss technical details.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="text-center mt-12">
-                <button class="bg-rainbow-animated hover:opacity-90 px-8 py-3 rounded-lg transition-all shadow-lg flex items-center mx-auto text-white">
-                    <span>Load More Trends</span>
-                    <i class="fas fa-angle-down ml-2"></i>
-                </button>
-            </div>
-        </div>
-    </section>
-
     <!-- Popular trends -->
-    <section class="relative z-10 py-14 px-6">
+    <section id="trends" class="relative z-10 py-14 px-6">
         <div class="container mx-auto">
-            <div class="flex items-center justify-between mb-10">
+            <div class="flex items-center justify-between mb-10 fade-in-section">
                 <div class="w-1/4 lg:w-1/3"></div>
-                <h2 class="text-2xl md:text-3xl font-bold text-center tech-circuit">
+                <h2 class="text-3xl md:text-4xl font-bold text-center tech-circuit">
                     <span class="text-rainbow-animated">
                         Popular Tech Trends
                     </span>
@@ -227,7 +182,7 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Trend card 1 -->
-                <div class="tech-card">
+                <div class="tech-card fade-in-section glass-effect-card" data-delay="100">
                     <div class="card-inner-content">
                         <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YWklMjBmdXR1cmV8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60')"></div>
                         <div class="p-6">
@@ -248,7 +203,7 @@
                 </div>
                 
                 <!-- Trend card 2 -->
-                <div class="tech-card">
+                <div class="tech-card fade-in-section glass-effect-card" data-delay="200">
                     <div class="card-inner-content">
                         <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bWV0YXZlcnNlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60')"></div>
                         <div class="p-6">
@@ -269,7 +224,7 @@
                 </div>
                 
                 <!-- Trend card 3 -->
-                <div class="tech-card">
+                <div class="tech-card fade-in-section glass-effect-card" data-delay="300">
                     <div class="card-inner-content">
                         <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1631776247334-82ae01bda4e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cXVhbnR1bSUyMGNvbXB1dGluZ3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60')"></div>
                         <div class="p-6">
@@ -286,6 +241,113 @@
                                 </button>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Load More按鈕移至這裡並添加懸停效果 -->
+            <div class="text-center mt-12 fade-in-section" data-delay="400">
+                <button class="bg-rainbow-animated hover:opacity-90 px-8 py-3 rounded-lg transition-all shadow-lg flex items-center mx-auto text-white btn-hover-effect">
+                    <span>Load More Trends</span>
+                    <i class="fas fa-angle-down ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech stack -->
+    <section id="features" class="relative z-10 py-14 px-6">
+        <div class="container mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold mb-10 text-center tech-circuit fade-in-section">
+                <span class="text-rainbow-animated">
+                    Technology Stack & Core Features
+                </span>
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Go Backend -->
+                <div class="tech-card fade-in-section glass-effect-card" data-delay="100">
+                    <div class="card-inner-content">
+                        <div class="flex justify-between mb-6">
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-code text-white text-2xl"></i>
+                            </div>
+                            <img src="https://go.dev/blog/gopher/header.jpg" alt="Go Gopher" class="h-16 w-auto rounded-xl object-contain" />
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-light">Golang-Powered Backend</h3>
+                        <p class="text-gray-300 font-light">High-performance backend system built with Golang, providing exceptional speed for real-time tech trend analysis and data processing.</p>
+                    </div>
+                </div>
+                
+                <!-- Event Registry API -->
+                <div class="tech-card fade-in-section glass-effect-card" data-delay="200">
+                    <div class="card-inner-content">
+                        <div class="flex justify-between mb-6">
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-newspaper text-white text-2xl"></i>
+                            </div>
+                            <img src="https://avatars.githubusercontent.com/u/25537390?s=200&v=4" alt="Event Registry Logo" class="h-16 w-auto rounded-xl bg-white p-2 object-contain" />
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-light">Event Registry API</h3>
+                        <p class="text-gray-300 font-light">Comprehensive global news coverage through Event Registry API, continuously capturing the latest technology developments across multiple sources.</p>
+                    </div>
+                </div>
+                
+                <!-- Database Architecture -->
+                <div class="tech-card fade-in-section glass-effect-card" data-delay="300">
+                    <div class="card-inner-content">
+                        <div class="flex justify-between mb-6">
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-database text-white text-2xl"></i>
+                            </div>
+                            <div class="flex gap-8">
+                                <img src="https://www.postgresql.org/media/img/about/press/elephant.png" alt="PostgreSQL Elephant" class="h-16 w-auto object-contain" />
+                                <img src="https://avatars.githubusercontent.com/u/73504361?s=280&v=4" alt="Qdrant Logo" class="h-16 w-auto rounded-xl bg-white p-2 object-contain" />
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-light">Advanced Database Architecture</h3>
+                        <p class="text-gray-300 font-light">Dual database system combining PostgreSQL for structured data with Qdrant vector database for semantic search, enabling similarity-based content discovery.</p>
+                    </div>
+                </div>
+                
+                <!-- Visualization -->
+                <div class="tech-card fade-in-section glass-effect-card" data-delay="400">
+                    <div class="card-inner-content">
+                        <div class="flex justify-between mb-6">
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-file-alt text-white text-2xl"></i>
+                            </div>
+                            <img src="https://huggingface.co/datasets/huggingface/brand-assets/resolve/main/hf-logo-with-title.png" alt="Hugging Face Logo" class="h-16 w-auto rounded-xl bg-white p-2 object-contain" />
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-light">Article Summarization</h3>
+                        <p class="text-gray-300 font-light">Leveraging BART-large-CNN model, available on Hugging Face, for automated key information extraction and concise, accurate summarization of tech articles.</p>
+                    </div>
+                </div>
+
+                <!-- RAG -->
+                <div class="tech-card fade-in-section glass-effect-card" data-delay="500">
+                    <div class="card-inner-content">
+                        <div class="flex justify-between mb-6">
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-brain text-white text-2xl"></i>
+                            </div>
+                            <img src="https://user-images.githubusercontent.com/6216945/224575138-a1c3e3ad-0831-4717-aae2-ed185f96411d.png" alt="RAG Architecture" class="h-16 w-auto rounded-xl object-contain" />
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-light">Retrieval Augmented Generation</h3>
+                        <p class="text-gray-300 font-light">Employing RAG technology to extract key data from vast information sources, ensuring timeliness and accuracy of insights through contextual information retrieval.</p>
+                    </div>
+                </div>
+
+                <!-- LLM -->
+                <div class="tech-card fade-in-section glass-effect-card" data-delay="600">
+                    <div class="card-inner-content">
+                        <div class="flex justify-between mb-6">
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-robot text-white text-2xl"></i>
+                            </div>
+                            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/c31566130735783.6186962073880.png" alt="LLM Brain" class="h-16 w-auto rounded-xl object-contain" />
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-light">TechMate Chatbot</h3>
+                        <p class="text-gray-300 font-light">Utilizing LLM technology combined with RAG to build an AI chatbot based on LLaMA3, with which you can discuss technical details.</p>
                     </div>
                 </div>
             </div>

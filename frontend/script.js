@@ -20,6 +20,9 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // 初始化載入更多按鈕
   initLoadMoreButton();
+
+  // 初始化滾動動畫
+  initScrollAnimations();
 });
 
 // 初始化動畫效果
@@ -33,12 +36,6 @@ function initAnimations() {
       element.classList.add('animate-fadeIn');
     }, index * 100);
   });
-  
-  // 科技感閃光效果
-  const glowElements = document.querySelectorAll('.bg-blue-500, .bg-gradient-to-r');
-  glowElements.forEach(element => {
-    element.classList.add('animate-glow');
-  });
 }
 
 // 初始化趨勢卡片交互
@@ -46,9 +43,8 @@ function initTrendCards() {
   const trendCards = document.querySelectorAll('.tech-card');
   
   trendCards.forEach(card => {
-    // 添加點擊事件
+    // 點擊卡片效果
     card.addEventListener('click', function() {
-      // 在實際應用中，這裡會導航到詳情頁面
       const title = this.querySelector('h3')?.textContent || '未知趨勢';
       console.log(`查看趨勢詳情: ${title}`);
     });
@@ -213,8 +209,6 @@ function performSearch(query) {
   ];
   
   alert(`找到 ${fakeResults.length} 個與 "${query}" 相關的趨勢`);
-  
-  // 在實際應用中，這裡會更新DOM顯示搜尋結果
 }
 
 // 初始化聊天機器人功能
@@ -325,4 +319,49 @@ function initChatBot() {
       return "That's an interesting topic. I'd be happy to explore more about " + userMessage + " and how it relates to emerging tech trends. Could you specify what aspect you're most interested in?";
     }
   }
+}
+
+// 初始化滾動動畫效果
+function initScrollAnimations() {
+  // 滾動淡入效果
+  const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+  };
+  
+  const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+          if (entry.isIntersecting) {
+              const delay = entry.target.dataset.delay || 0;
+              setTimeout(() => {
+                  entry.target.classList.add('animate-fadeIn');
+              }, delay);
+              observer.unobserve(entry.target);
+          }
+      });
+  }, observerOptions);
+  
+  const fadeElements = document.querySelectorAll('.fade-in-section');
+  fadeElements.forEach(el => {
+      el.style.opacity = 0;
+      observer.observe(el);
+  });
+  
+  // 平滑滾動效果
+  const smoothScrollLinks = document.querySelectorAll('.smooth-scroll');
+  smoothScrollLinks.forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+          
+          if (targetElement) {
+              window.scrollTo({
+                  top: targetElement.offsetTop - 80, // 減去導航欄高度
+                  behavior: 'smooth'
+              });
+          }
+      });
+  });
 }

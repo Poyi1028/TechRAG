@@ -1,83 +1,144 @@
 /* 科技趨勢偵測平台額外樣式 */
 
-/* 動畫效果 */
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.03); }
-  100% { transform: scale(1); }
-}
-
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes animatedGradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* 自定義類別 */
-.animate-pulse {
-  animation: pulse 3s infinite ease-in-out;
-}
-
 .animate-fadeIn {
   animation: fadeIn 0.7s ease-out forwards;
 }
 
-/* 卡片樣式與漸層效果 */
+/* 灰白漸層文字 */
+.text-gray-gradient {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 1), rgba(200, 200, 200, 0.9));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0px 0px 1px rgba(150, 150, 150, 0.05);
+  padding: 0.1em 0 0.2em 0; /* 增加底部內邊距避免裁剪問題 */
+}
+
+/* 卡片樣式 */
 .tech-card {
-  /* 用於實現漸層邊框的技巧：padding 將成為邊框的空間 */
-  padding: 3px; /* 邊框的厚度 */
-  border-radius: 16px; /* 外部圓角，比內部稍大一點 */
-  background: transparent; /* 初始時透明，懸停時顯示漸層 */
-  transition: background 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  border-radius: 16px;
+  background: rgba(26, 26, 26, 0.8);
   position: relative;
   overflow: visible;
-  transform: translateY(0); /* 初始位置 */
+  cursor: pointer;
+  border: 1px solid rgba(60, 60, 60, 0.3);
+  z-index: 1;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: border-color 1s ease,
+              box-shadow 1s ease;
 }
 
+/* 卡片微光效果 */
+.tech-card::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, #FF8C00 0%, #8A2BE2 30%, #00BFFF 100%);
+  z-index: -1;
+  border-radius: 18px;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+/* 卡片懸停效果 */
 .tech-card:hover {
-  /* 懸停時的漸層背景，看起來像邊框 */
-  background: linear-gradient(135deg, #B82FE0, #E73C7E, #F47C30, #FDCB52, #5BE7C4);
-  transform: translateY(-10px); /* 懸停時上移 */
+  border-color: rgba(100, 100, 100, 0);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
-.tech-card:active {
-  transform: translateY(-5px); /* 點擊時稍微下降，增加互動感 */
-  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+.tech-card:hover::before {
+  opacity: 0.8;
 }
 
 /* 卡片內容容器 */
 .card-inner-content {
-  background-color: #1A1A1A; /* 卡片實際背景色，比 body 稍亮 */
+  background-color: #1A1A1A;
   padding: 25px;
-  border-radius: 13px; /* 內部圓角 (外部圓角 - padding) */
-  height: 100%; /* 確保填滿 .card 的 padding box */
+  border-radius: 15px;
+  height: 100%;
   box-sizing: border-box;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* 卡片陰影 */
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* 確保子元素不會超出圓角 */
+  overflow: hidden;
   transition: box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  z-index: 1;
 }
 
-.tech-card:hover .card-inner-content {
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); /* 懸停時增強陰影效果 */
+/* 放大卡片圖標 */
+.card-inner-content .flex .fas {
+  font-size: 2.25rem !important;
+  transition: transform 0.3s ease, color 0.3s ease, background 0.3s ease;
+  color: rgba(255, 255, 255, 0.8);
+  display: inline-block;
+  transform-origin: center;
 }
 
-/* 修正 trend 卡片的圖片樣式 */
+.tech-card:hover .card-inner-content .flex .fas {
+  transform: scale(1.2);
+  background: linear-gradient(135deg, #FF8C00 0%, #8A2BE2 30%, #00BFFF 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* 卡片圖片樣式 */
 .card-inner-content .h-48 {
-  margin: -25px -25px 0; /* 抵消父元素的 padding */
-  border-top-left-radius: 13px; /* 上方圓角與卡片一致 */
-  border-top-right-radius: 13px; /* 上方圓角與卡片一致 */
-  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  margin: -25px -25px 0;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-inner-content .h-48::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(26, 26, 26, 0), rgba(26, 26, 26, 0.3));
+  opacity: 0;
+  transition: opacity 1s ease;
 }
 
 .tech-card:hover .card-inner-content .h-48 {
-  transform: scale(1.03); /* 懸停時圖片輕微放大，增加視覺效果 */
+  transform: scale(1.05);
+}
+
+.tech-card:hover .card-inner-content .h-48::after {
+  opacity: 1;
+}
+
+/* 卡片文字樣式 */
+.tech-card h3 {
+  transition: color 0.3s ease;
+}
+
+.tech-card:hover h3 {
+  background: linear-gradient(135deg, #FF8C00 0%, #8A2BE2 30%, #00BFFF 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.tech-card p {
+  transition: color 0.3s ease;
+}
+
+.tech-card:hover p {
+  color: rgba(255, 255, 255, 0.9);
 }
 
 /* 定制滾動條 */
@@ -141,26 +202,27 @@
   box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(70, 70, 70, 0.15);
 }
 
-/* 簡約搜尋框 */
-input[type="text"], input[type="email"] {
+/* 搜尋框 */
+input[type="text"] {
   background: rgba(24, 24, 27, 0.6);
   border: 1px solid rgba(50, 50, 50, 0.3);
   transition: all 0.3s ease;
   caret-color: rgba(229, 231, 235, 0.8);
   color: inherit;
+  width: 100%;
 }
 
-input[type="text"]::placeholder, input[type="email"]::placeholder {
+input[type="text"]::placeholder {
   color: rgba(156, 163, 175, 0.7);
 }
 
-input[type="text"]:focus, input[type="email"]:focus {
+input[type="text"]:focus {
   background: rgba(24, 24, 27, 0.7);
   border-color: rgba(80, 80, 80, 0.4);
   box-shadow: 0 0 0 1px rgba(80, 80, 80, 0.2), 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* 玻璃態效果調整 */
+/* 玻璃態效果 */
 .glass-effect {
   background: rgba(24, 24, 27, 0.5);
   backdrop-filter: blur(10px);
@@ -182,7 +244,7 @@ button:active {
   transform: scale(0.97);
 }
 
-/* 用於文字的動態彩虹漸層 - 更新顏色 */
+/* 彩虹漸層文字 */
 .text-rainbow-animated {
   background: linear-gradient(135deg,#FF8C00 0%, #8A2BE2 30%, #00BFFF 100%);
   background-size: 125% 125%;
@@ -191,7 +253,7 @@ button:active {
   color: transparent;
 }
 
-/* 用於背景的動態彩虹漸層 - 更新顏色 */
+/* 彩虹漸層背景 */
 .bg-rainbow-animated {
   background: linear-gradient(135deg,#FF8C00 0%,  #8A2BE2 30%, #00BFFF 100%);
   background-size: 125% 125%;
@@ -234,6 +296,7 @@ body {
   padding-top: 0;
   border-top: 1px solid rgba(70, 70, 70, 0.3);
   border-top-width: 0;
+  display: block;
 }
 
 #chat-container.active {
@@ -327,4 +390,8 @@ body {
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.fade-in-section {
+  transition: opacity 0.7s ease-out;
 } 
