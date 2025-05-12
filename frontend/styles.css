@@ -74,20 +74,43 @@
   z-index: 1;
 }
 
+/* 卡片內部的內容區域增加相對定位 */
+.card-inner-content > div:nth-child(2) {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 卡片內文字區域 */
+.card-inner-content p.text-truncate {
+  flex: 1;
+  line-height: 1.5; /* 設定行高以方便計算 */
+  max-height: 4.5em; /* 限制最大高度約為3行 (3 * 1.5em) */
+  overflow: hidden; /* 隱藏超出最大高度的內容 */
+  margin-bottom: 1.5rem !important;
+}
+
+/* No image placeholder 樣式 */
+.no-image-placeholder {
+  background-color: #222;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
+
+.no-image-placeholder i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
 /* 放大卡片圖標 */
 .card-inner-content .flex .fas {
   font-size: 2.25rem !important;
-  transition: transform 0.3s ease, color 0.3s ease, background 0.3s ease;
   color: rgba(255, 255, 255, 0.8);
   display: inline-block;
-  transform-origin: center;
-}
-
-.tech-card:hover .card-inner-content .flex .fas {
-  background: linear-gradient(135deg, #FF8C00 0%, #8A2BE2 30%, #00BFFF 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
 }
 
 /* 卡片圖片樣式 */
@@ -97,7 +120,7 @@
   border-top-right-radius: 15px;
   transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .card-inner-content .h-48::after {
@@ -142,24 +165,22 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
-/* Read More 按鈕漸層效果 */
+/* Read More 按鈕定位在右下角 */
 .read-more-btn {
-  transition: background 0.3s ease, transform 0.3s ease;
-  position: relative;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transition: background 0.3s ease, transform 0.3s ease, color 0.3s ease;
   overflow: visible;
-  padding-right: 10px;
-}
-
-/* 箭頭初始狀態 */
-.read-more-btn .fa-arrow-right {
-  position: relative;
-  left: 0;
-  transition: left 0.6s cubic-bezier(0.22, 1, 0.36, 1), background 0.5s ease, color 0.5s ease;
+  padding-right: 0;
+  z-index: 5;
 }
 
 /* 確保包含 Read More 的容器不會裁切內容 */
-.tech-card .flex.justify-between.items-center {
+.tech-card .flex.justify-end.items-center {
   overflow: visible;
+  position: relative;
+  height: 32px;
 }
 
 .tech-card:hover .read-more-btn {
@@ -167,14 +188,6 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-}
-
-.tech-card:hover .read-more-btn .fa-arrow-right {
-  background: linear-gradient(135deg, #FF8C00 0%, #8A2BE2 30%, #00BFFF 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  left: 5px; /* 使用 left 屬性實現位移動畫 */
 }
 
 /* 定制滾動條 */
@@ -419,15 +432,97 @@ body {
   border-bottom: 1px solid rgba(60, 60, 60, 0.3);
 }
 
-.text-truncate {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 .fade-in-section {
   transition: opacity 0.7s ease-out;
-} 
+}
+
+/* 文章來源區域樣式 */
+.article-source {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(70, 70, 70, 0.5);
+}
+
+.article-source h4 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: rgba(229, 231, 235, 0.9);
+}
+
+.article-source a {
+  display: inline-flex;
+  align-items: center;
+  color: #3b82f6;
+  transition: color 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.article-source a:hover {
+  color: #60a5fa;
+}
+
+.article-source a i {
+  margin-left: 0.5rem;
+  font-size: 0.75rem;
+}
+
+/* 載入中狀態樣式 */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  width: 100%;
+}
+
+.loading-spinner {
+  font-size: 2rem;
+  color: rgba(229, 231, 235, 0.5);
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 文章內容格式化 */
+#modal-content {
+  line-height: 1.6;
+}
+
+#modal-content p {
+  margin-bottom: 1rem;
+}
+
+/* 載入更多按鈕禁用狀態 */
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* No image placeholder styles */
+.modal-img.flex {
+  background-color: #222 !important;
+  position: relative;
+}
+
+.modal-img.flex i {
+  font-size: 4rem;
+  color: rgba(255, 255, 255, 0.1);
+}
+
+.modal-img.flex span {
+  position: absolute;
+  bottom: 30px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* 圖片占位符樣式 */
+.image-placeholder {
+  transition: opacity 0.3s ease;
+  background-color: rgba(34, 34, 34, 0.7);
+  opacity: 1;
+}

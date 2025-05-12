@@ -1,13 +1,16 @@
 // 科技趨勢偵測平台 - 互動功能
 
+// API 基礎 URL
+const API_BASE_URL = '';
+
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('TechTrend科技趨勢平台初始化中...');
+  console.log('TechTrend platform initializing...');
   
   // 初始化動畫效果
   initAnimations();
   
-  // 初始化趨勢卡片交互
-  initTrendCards();
+  // 獲取第一頁文章並初始化趨勢卡片
+  fetchArticles(1);
   
   // 初始化搜尋功能
   initSearch();
@@ -15,15 +18,155 @@ document.addEventListener('DOMContentLoaded', function() {
   // 初始化聊天機器人功能
   initChatBot();
   
-  // 初始化文章模態視窗功能
-  initArticleModals();
-  
   // 初始化載入更多按鈕
   initLoadMoreButton();
 
   // 初始化滾動動畫
   initScrollAnimations();
 });
+
+// 目前的頁碼
+let currentPage = 1;
+// 暫存文章數據
+let articlesData = {};
+
+// 從API獲取文章
+function fetchArticles(page) {
+  // 顯示載入狀態
+  const trendsContainer = document.querySelector('.grid.grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-3');
+  if (page === 1) {
+    trendsContainer.innerHTML = '<div class="col-span-3 text-center py-10"><i class="fas fa-spinner fa-spin text-3xl"></i></div>';
+  }
+  
+  // 發送API請求
+  fetch(`${API_BASE_URL}/api/articles?page=${page}&size=6`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (page === 1) {
+        // 第一頁清空容器
+        trendsContainer.innerHTML = '';
+      }
+      
+      // 暫存文章數據
+      data.data.forEach(article => {
+        articlesData[article.uri] = article;
+      });
+      
+      // 渲染文章卡片
+      renderArticleCards(data.data, trendsContainer);
+      
+      // 更新當前頁碼
+      currentPage = page;
+      
+      // 初始化文章模態視窗功能
+      initArticleModals();
+      
+      // 初始化趨勢卡片交互
+      initTrendCards();
+      
+      // 如果已經是最後一頁，禁用載入更多按鈕
+      const loadMoreBtn = document.querySelector('button.bg-rainbow-animated');
+      if (data.pagination.page >= data.pagination.pages) {
+        loadMoreBtn.disabled = true;
+        loadMoreBtn.classList.add('opacity-50');
+      } else {
+        loadMoreBtn.disabled = false;
+        loadMoreBtn.classList.remove('opacity-50');
+      }
+    })
+    .catch(error => {
+      console.error('Failed to fetch articles:', error);
+      trendsContainer.innerHTML = '<div class="col-span-3 text-center py-10 text-red-500">Failed to load articles. Please try again later.</div>';
+    });
+}
+
+// 渲染文章卡片
+function renderArticleCards(articles, container) {
+  articles.forEach((article, index) => {
+    // 計算幾天前
+    const publishedDate = new Date(article.published_at);
+    const currentDate = new Date();
+    const diffTime = Math.abs(currentDate - publishedDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const timeAgo = diffDays === 0 ? 'Today' : `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+    
+    // 處理無圖片情況
+    const hasImage = article.image && article.image.trim() !== '';
+    const imageStyle = hasImage 
+      ? `background-color: #222; display: flex; align-items: center; justify-content: center;`
+      : 'background-color: #222; display: flex; align-items: center; justify-content: center;';
+    
+    const placeholderIcon = '<div class="absolute inset-0 flex items-center justify-center image-placeholder"><i class="fas fa-image text-gray-600 text-6xl"></i><span class="absolute text-sm text-gray-500 mt-16">No image available</span></div>';
+    
+    const card = document.createElement('div');
+    card.className = 'tech-card fade-in-section glass-effect-card';
+    card.setAttribute('data-delay', (index * 100).toString());
+    card.innerHTML = `
+      <div class="card-inner-content">
+        <div class="h-48 bg-cover bg-center relative" style="${imageStyle}" data-image-url="${hasImage ? article.image : ''}">
+          ${placeholderIcon}
+        </div>
+        <div class="p-6">
+          <div class="flex justify-between items-center mb-3">
+            <span class="bg-gray-700 text-gray-300 text-xs px-3 py-1 rounded-lg data-tag">Artificial Intelligence</span>
+            <span class="text-gray-400 text-sm">${timeAgo}</span>
+          </div>
+          <h3 class="text-xl font-bold mb-3 text-light">${article.title}</h3>
+          <p class="text-gray-300 font-light text-truncate">${article.summary}</p>
+          <div class="flex justify-end items-center">
+            <button class="text-gray-400 hover:text-light flex items-center read-more-btn" data-article-id="${article.uri}">
+              Read More
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    container.appendChild(card);
+    
+    // 如果有圖片，嘗試加載並設置超時
+    if (hasImage) {
+      const imageContainer = card.querySelector('.h-48');
+      const imageUrl = article.image;
+      const placeholder = imageContainer.querySelector('.image-placeholder');
+      
+      // 隱藏占位符
+      placeholder.style.opacity = '0';
+      
+      // 創建一個臨時圖片對象來嘗試加載
+      const tempImg = new Image();
+      let imageLoaded = false;
+      
+      // 圖片加載成功
+      tempImg.onload = function() {
+        imageContainer.style.backgroundImage = `url('${imageUrl}')`;
+        placeholder.style.display = 'none';
+        imageLoaded = true;
+      };
+      
+      // 圖片加載失敗
+      tempImg.onerror = function() {
+        placeholder.style.opacity = '1';
+      };
+      
+      // 設置加載超時
+      setTimeout(() => {
+        if (!imageLoaded) {
+          placeholder.style.opacity = '1';
+          tempImg.src = ''; // 取消加載
+        }
+      }, 5000); // 5秒後超時
+      
+      // 開始加載
+      tempImg.src = imageUrl;
+    }
+  });
+}
 
 // 初始化動畫效果
 function initAnimations() {
@@ -50,8 +193,8 @@ function initTrendCards() {
         return;
       }
       
-      const title = this.querySelector('h3')?.textContent || '未知趨勢';
-      console.log(`查看趨勢詳情: ${title}`);
+      const title = this.querySelector('h3')?.textContent || 'Unknown Trend';
+      console.log(`Viewing trend details: ${title}`);
       
       // 獲取卡片內的閱讀更多按鈕
       const readMoreBtn = this.querySelector('.read-more-btn');
@@ -66,61 +209,87 @@ function initTrendCards() {
 
 // 初始化文章模態視窗功能
 function initArticleModals() {
-  // 文章內容數據
-  const articles = {
-    'article-1': {
-      title: 'Generative AI Drives Content Creation Revolution',
-      tag: 'Artificial Intelligence',
-      date: '2 days ago',
-      image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YWklMjBmdXR1cmV8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60',
-      content: `The latest generative AI technologies are reshaping content creation processes, influencing every area from text to visual design. Businesses across industries are adopting these tools to streamline creative workflows and generate more personalized content at scale. 
-      <br><br>
-      Companies like OpenAI, Anthropic, and Stability AI continue to release increasingly powerful models that can generate human-quality text, create photorealistic images, and even produce original music compositions. This democratization of content creation is enabling smaller organizations to compete with larger entities by producing high-quality content without massive creative teams.
-      <br><br>
-      However, concerns about intellectual property rights, content authenticity, and creative job displacement remain. Regulatory frameworks are struggling to keep pace with the rapid development of these technologies. As these AI systems continue to evolve, the boundary between human and machine-generated content is becoming increasingly blurred, raising important questions about creativity, originality, and the future of creative professions.
-      <br><br>
-      Experts predict that the next generation of generative models will focus on multimodal capabilities, allowing for seamless integration across different content types and more sophisticated understanding of context and intent. The companies that successfully implement these technologies while addressing ethical considerations will likely gain significant competitive advantages in the digital content landscape.`
-    },
-    'article-2': {
-      title: 'Metaverse Platforms Integrate Blockchain and NFT Technology',
-      tag: 'Metaverse',
-      date: '3 days ago',
-      image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bWV0YXZlcnNlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60',
-      content: `The metaverse is creating new digital asset ownership and social experiences through integration of blockchain and NFT technologies. Leading metaverse platforms are now implementing comprehensive blockchain solutions to enable true digital ownership, allowing users to buy, sell, and trade virtual assets with verifiable provenance.
-      <br><br>
-      Companies like Decentraland, The Sandbox, and Roblox are at the forefront of this integration, creating robust digital economies where users can monetize their creations and activities. These platforms are seeing significant investment from major brands eager to establish their presence in virtual worlds, with luxury fashion houses, entertainment companies, and even financial institutions purchasing virtual land and creating immersive brand experiences.
-      <br><br>
-      The technology stack supporting these metaverse platforms continues to evolve, with improvements in rendering capabilities, interoperability standards, and accessibility across devices. Additionally, advances in haptic feedback technology and VR headsets are enhancing the immersive quality of metaverse experiences, blurring the line between physical and digital realities.
-      <br><br>
-      This convergence of technologies is opening up new economic opportunities while establishing robust frameworks for digital identity and property rights in virtual worlds. As these platforms mature, they are likely to become significant channels for commerce, entertainment, education, and social interaction, fundamentally changing how people connect and conduct business in digital spaces.`
-    },
-    'article-3': {
-      title: 'Quantum Computing Breakthrough: 100 Qubit Processing Achieved',
-      tag: 'Quantum Computing',
-      date: '4 days ago',
-      image: 'https://images.unsplash.com/photo-1631776247334-82ae01bda4e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cXVhbnR1bSUyMGNvbXB1dGluZ3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
-      content: `Scientists announce a major breakthrough in quantum computing, successfully achieving stable 100-qubit computational processing. This milestone represents a significant step toward quantum advantage, where quantum computers can solve problems that classical computers cannot practically address.
-      <br><br>
-      The research team, composed of experts from leading quantum computing companies and research institutions, has developed a novel approach to qubit connectivity that significantly reduces decoherence issues that have previously limited quantum computing capabilities. This innovation allows for more complex quantum algorithms to be executed reliably, opening doors to practical applications in optimization problems, secure communications, and advanced simulations.
-      <br><br>
-      Additionally, the team has also developed new error correction techniques that maintain coherence for longer periods, potentially accelerating the timeline for practical quantum applications in cryptography, material science, and pharmaceutical research. This breakthrough comes as investments in quantum computing continue to grow, with governments and private companies worldwide recognizing its strategic importance for future technological leadership.
-      <br><br>
-      Industry analysts predict that this achievement could accelerate the timeline for quantum advantage in specific domains by several years, prompting increased investment in quantum-ready algorithms and quantum-resistant cryptography. Companies in finance, logistics, and pharmaceuticals are already exploring how to leverage this computational power for competitive advantage once these systems become commercially available.`
-    }
-  };
-  
   // 綁定閱讀更多按鈕
   document.querySelectorAll('.read-more-btn').forEach(button => {
     button.addEventListener('click', function(e) {
       e.stopPropagation(); // 防止觸發卡片點擊事件
       const articleId = this.getAttribute('data-article-id');
-      const article = articles[articleId];
+      const article = articlesData[articleId];
+      
+      if (!article) {
+        console.error('Article data not found:', articleId);
+        return;
+      }
+      
+      // 計算幾天前
+      const publishedDate = new Date(article.published_at);
+      const currentDate = new Date();
+      const diffTime = Math.abs(currentDate - publishedDate);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      const timeAgo = diffDays === 0 ? 'Today' : `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+      
+      // 處理無圖片情況
+      const hasImage = article.image && article.image.trim() !== '';
+      const modalImg = document.getElementById('modal-img');
+      
+      // 重置模態窗口圖片容器
+      modalImg.style.backgroundImage = 'none';
+      modalImg.innerHTML = '<div class="flex items-center justify-center w-full h-full image-placeholder"><i class="fas fa-image text-gray-600 text-6xl"></i><span class="absolute text-sm text-gray-500 mt-16">No image available</span></div>';
+      modalImg.style.backgroundColor = '#222';
+      modalImg.classList.add('flex', 'items-center', 'justify-center');
+      
+      // 如果有圖片URL，嘗試加載
+      if (hasImage) {
+        const placeholder = modalImg.querySelector('.image-placeholder');
+        placeholder.style.opacity = '0';
+        
+        // 創建臨時圖片對象
+        const tempImg = new Image();
+        let imageLoaded = false;
+        
+        // 圖片加載成功
+        tempImg.onload = function() {
+          modalImg.style.backgroundImage = `url('${article.image}')`;
+          modalImg.innerHTML = '';
+          modalImg.classList.remove('flex', 'items-center', 'justify-center');
+          modalImg.style.backgroundColor = '';
+          imageLoaded = true;
+        };
+        
+        // 圖片加載失敗
+        tempImg.onerror = function() {
+          placeholder.style.opacity = '1';
+        };
+        
+        // 設置加載超時
+        setTimeout(() => {
+          if (!imageLoaded) {
+            placeholder.style.opacity = '1';
+            tempImg.src = ''; // 取消加載
+          }
+        }, 5000); // 5秒後超時
+        
+        // 開始加載
+        tempImg.src = article.image;
+      }
       
       document.getElementById('modal-title').innerText = article.title;
-      document.getElementById('modal-tag').innerText = article.tag;
-      document.getElementById('modal-date').innerText = article.date;
-      document.getElementById('modal-img').style.backgroundImage = `url('${article.image}')`;
-      document.getElementById('modal-content').innerHTML = article.content;
+      document.getElementById('modal-tag').innerText = 'Artificial Intelligence';
+      document.getElementById('modal-date').innerText = timeAgo;
+      
+      // 設置文章內容和來源資訊
+      const contentWithSource = `
+        ${article.content}
+        <div class="mt-8 pt-4 border-t border-gray-700">
+          <h4 class="text-lg font-bold text-gray-300 mb-2">Source</h4>
+          <p class="text-gray-400">${article.source_title}</p>
+          <a href="${article.url}" target="_blank" class="text-blue-400 hover:text-blue-300 flex items-center mt-2">
+            <span>View Original Article</span>
+            <i class="fas fa-external-link-alt ml-2 text-xs"></i>
+          </a>
+        </div>
+      `;
+      document.getElementById('modal-content').innerHTML = contentWithSource;
       
       document.getElementById('article-modal').classList.add('active');
       document.body.style.overflow = 'hidden'; // 防止背景滾動
@@ -170,16 +339,14 @@ function initLoadMoreButton() {
       this.classList.add('opacity-75');
       this.disabled = true;
       
-      // 模擬網路請求延遲
+      // 加載下一頁文章
+      fetchArticles(currentPage + 1);
+      
+      // 延遲恢復按鈕文本
       setTimeout(() => {
-        // 恢復按鈕文本
         this.innerHTML = originalText;
         this.classList.remove('opacity-75');
-        this.disabled = false;
-        
-        // 提示用戶
-        alert('All trends have been loaded. Check back later for updates!');
-      }, 1500);
+      }, 1000);
     });
   }
 }
@@ -207,21 +374,21 @@ function initSearch() {
 // 執行搜尋
 function performSearch(query) {
   if (!query.trim()) {
-    alert('請輸入搜尋關鍵詞');
+    alert('Please enter a search keyword');
     return;
   }
   
-  console.log(`搜尋趨勢: ${query}`);
+  console.log(`Searching for: ${query}`);
   
   // 模擬搜尋結果 - 在實際應用中會請求API
   const fakeResults = [
-    '人工智能在' + query + '的應用',
-    query + '相關的區塊鏈發展',
-    '元宇宙中的' + query + '技術',
-    query + '在量子計算領域的突破'
+    'AI applications in ' + query,
+    query + ' related blockchain developments',
+    'Metaverse ' + query + ' technology',
+    query + ' breakthroughs in quantum computing'
   ];
   
-  alert(`找到 ${fakeResults.length} 個與 "${query}" 相關的趨勢`);
+  alert(`Found ${fakeResults.length} trends related to "${query}"`);
 }
 
 // 初始化聊天機器人功能

@@ -6,7 +6,7 @@
     <title>TechRAG</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/static/styles.css?v=1.0.1">
     <script>
         tailwind.config = {
             theme: {
@@ -181,71 +181,13 @@
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Trend card 1 -->
-                <div class="tech-card fade-in-section glass-effect-card" data-delay="100">
-                    <div class="card-inner-content">
-                        <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YWklMjBmdXR1cmV8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60')"></div>
-                        <div class="p-6">
-                            <div class="flex justify-between items-center mb-3">
-                                <span class="bg-gray-700 text-gray-300 text-xs px-3 py-1 rounded-lg data-tag">Artificial Intelligence</span>
-                                <span class="text-gray-400 text-sm">2 days ago</span>
-                            </div>
-                            <h3 class="text-xl font-bold mb-3 text-light">Generative AI Drives Content Creation Revolution</h3>
-                            <p class="text-gray-300 mb-4 font-light text-truncate">The latest generative AI technologies are reshaping content creation processes, influencing every area from text to visual design. Businesses across industries are adopting these tools to streamline creative workflows and generate more personalized content at scale. As these AI systems continue to evolve, the boundary between human and machine-generated content is becoming increasingly blurred, raising important questions about creativity, originality, and the future of creative professions.</p>
-                            <div class="flex justify-between items-center">
-                                <div></div>
-                                <button class="text-gray-400 hover:text-light flex items-center read-more-btn" data-article-id="article-1">
-                                    Read More <i class="fas fa-arrow-right ml-1 text-xs"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Trend card 2 -->
-                <div class="tech-card fade-in-section glass-effect-card" data-delay="200">
-                    <div class="card-inner-content">
-                        <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bWV0YXZlcnNlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60')"></div>
-                        <div class="p-6">
-                            <div class="flex justify-between items-center mb-3">
-                                <span class="bg-gray-700 text-gray-300 text-xs px-3 py-1 rounded-lg data-tag">Metaverse</span>
-                                <span class="text-gray-400 text-sm">3 days ago</span>
-                            </div>
-                            <h3 class="text-xl font-bold mb-3 text-light">Metaverse Platforms Integrate Blockchain and NFT Technology</h3>
-                            <p class="text-gray-300 mb-4 font-light text-truncate">The metaverse is creating new digital asset ownership and social experiences through integration of blockchain and NFT technologies. Leading metaverse platforms are now implementing comprehensive blockchain solutions to enable true digital ownership, allowing users to buy, sell, and trade virtual assets with verifiable provenance. This convergence of technologies is opening up new economic opportunities while establishing robust frameworks for digital identity and property rights in virtual worlds.</p>
-                            <div class="flex justify-between items-center">
-                                <div></div>
-                                <button class="text-gray-400 hover:text-light flex items-center read-more-btn" data-article-id="article-2">
-                                    Read More <i class="fas fa-arrow-right ml-1 text-xs"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Trend card 3 -->
-                <div class="tech-card fade-in-section glass-effect-card" data-delay="300">
-                    <div class="card-inner-content">
-                        <div class="h-48 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1631776247334-82ae01bda4e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cXVhbnR1bSUyMGNvbXB1dGluZ3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60')"></div>
-                        <div class="p-6">
-                            <div class="flex justify-between items-center mb-3">
-                                <span class="bg-gray-700 text-gray-300 text-xs px-3 py-1 rounded-lg data-tag">Quantum Computing</span>
-                                <span class="text-gray-400 text-sm">4 days ago</span>
-                            </div>
-                            <h3 class="text-xl font-bold mb-3 text-light">Quantum Computing Breakthrough: 100 Qubit Processing Achieved</h3>
-                            <p class="text-gray-300 mb-4 font-light text-truncate">Scientists announce a major breakthrough in quantum computing, successfully achieving stable 100-qubit computational processing. This milestone represents a significant step toward quantum advantage, where quantum computers can solve problems that classical computers cannot practically address. The research team has also developed new error correction techniques that maintain coherence for longer periods, potentially accelerating the timeline for practical quantum applications in cryptography, material science, and pharmaceutical research.</p>
-                            <div class="flex justify-between items-center">
-                                <div></div>
-                                <button class="text-gray-400 hover:text-light flex items-center read-more-btn" data-article-id="article-3">
-                                    Read More <i class="fas fa-arrow-right ml-1 text-xs"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Dynamic article cards -->
+                <div class="col-span-3 text-center py-10">
+                    <i class="fas fa-spinner fa-spin text-3xl"></i>
                 </div>
             </div>
             
-            <!-- Load More按鈕移至這裡並添加懸停效果 -->
+            <!-- Load More button -->
             <div class="text-center mt-12 fade-in-section" data-delay="400">
                 <button class="bg-rainbow-animated hover:opacity-90 px-8 py-3 rounded-lg transition-all shadow-lg flex items-center mx-auto text-white btn-hover-effect">
                     <span>Load More Trends</span>
@@ -370,11 +312,11 @@
             <div id="modal-tag" class="bg-gray-700 text-gray-300 text-xs px-3 py-1 rounded-lg inline-block mb-4"></div>
             <div id="modal-date" class="text-gray-400 text-sm mb-6"></div>
             <div class="modal-img h-64 bg-cover bg-center rounded-xl mb-6" id="modal-img"></div>
-            <p class="text-gray-300 leading-relaxed" id="modal-content"></p>
+            <div class="text-gray-300 leading-relaxed" id="modal-content"></div>
         </div>
     </div>
 
     <!-- Main JavaScript -->
-    <script src="script.js"></script>
+    <script src="/static/script.js?v=1.0.1"></script>
 </body>
 </html> 
