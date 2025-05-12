@@ -25,7 +25,7 @@ Leverage **Large Language Models (LLMs)** and **Retrieval-Augmented Generation (
 - **News Source**:
   ![Event Registry](https://img.shields.io/badge/Event%20Registry-FF5722?style=for-the-badge&logo=news&logoColor=white)
 
-![核心功能](core_feature.png)
+![核心功能](features.png)
 
 ---
 
