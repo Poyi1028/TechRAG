@@ -27,44 +27,12 @@ Leverage **Large Language Models (LLMs)** and **Retrieval-Augmented Generation (
 
 ![核心功能](features.png)
 
----
-
-## ⚙️ Installation and Setup
-
-1. **Clone the Project**
-
-```bash
-git clone https://github.com/yourname/tech-trend-rag-starter.git
-cd tech-trend-rag-starter
-```
-
-2. **Configure Environment Variables**
-
-```bash
-cp .env.example .env
-# Edit .env with your API keys and settings
-```
-
-3. **Launch Development Environment (Docker)**
-
-```bash
-docker-compose up --build
-```
-
-This will start:
-- Go Gin Server (localhost:8080)
-- Python FastAPI Server (localhost:8000)
-- PostgreSQL (localhost:5432)
-- Qdrant (localhost:6333)
-
----
-
 ## 🔥 Development Progress
 
 - [x] Basic Go Gin API Setup
 - [x] Basic Python FastAPI RAG Setup
 - [x] News Fetcher (Event Registry Integration)
 - [x] RAG Integration with Qdrant
-- [ ] Frontend Integration
-- [ ] Dockerization and Deployment
-- [ ] Testing and Optimization
+- [x] Frontend Integration
+- [x] Dockerization and Deployment
+- [ ] Optimization
