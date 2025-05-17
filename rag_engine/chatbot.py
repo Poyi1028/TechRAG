@@ -21,7 +21,7 @@ if not groq_api_key:
 
 # --- 設定模型 ---
 EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
-GROQ_MODEL = "llama3-70b-8192"
+GROQ_MODEL = "llama-3.3-70b-versatile"
 
 # --- 1. 載入嵌入模型 ---
 print(f"Loading embedding model: {EMBEDDING_MODEL}")
@@ -29,7 +29,18 @@ embedding = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL)
 
 # --- 2. 連接 Qdrant ---
 print(f"Connecting to Qdrant")
-client = QdrantClient(host="localhost", port=6333)
+qdrant_host = os.getenv("QDRANT_HOST", "localhost")  # 使用環境變數，預設為 localhost
+qdrant_port = int(os.getenv("QDRANT_PORT", "6333"))  # 使用環境變數，預設為標準端口
+print(f"Qdrant connection settings - Host: {qdrant_host}, Port: {qdrant_port}")
+
+try:
+    client = QdrantClient(host=qdrant_host, port=qdrant_port)
+    # 測試連接
+    collections = client.get_collections()
+    print(f"Successfully connected to Qdrant. Available collections: {collections}")
+except Exception as e:
+    print(f"Error connecting to Qdrant: {e}")
+    raise
 
 # --- 3. 初始化 Qdrant Vector Store ---
 print(f"Initializing QdrantVectorStore")

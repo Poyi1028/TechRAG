@@ -5,6 +5,8 @@ services:
     image: postgres:17
     container_name: my-postgres
     restart: always
+    env_file:
+      - .env
     environment:
       POSTGRES_USER: ${POSTGRES_USER}         # 資料庫使用者
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}    # 資料庫密碼
@@ -13,11 +15,15 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - techrag-network
 
   pgadmin:
     image: dpage/pgadmin4
     container_name: my-pgadmin
     restart: always
+    env_file:
+      - .env
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}   # 登入 pgAdmin 的帳號
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}    # 登入 pgAdmin 的密碼
@@ -27,6 +33,8 @@ services:
       - db
     volumes:
       - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - techrag-network
     
   qdrant:
     image: qdrant/qdrant:latest
@@ -37,8 +45,62 @@ services:
       - "6334:6334"  # Qdrant HTTP API 端口
     volumes:
       - qdrant_data:/qdrant/storage
+    networks:
+      - techrag-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: techrag-backend
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - RAG_ENGINE_URL=http://rag-engine:8000/chat
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - qdrant
+      - rag-engine
+    volumes:
+      - ./frontend:/app/frontend:ro  # 使用 :ro 表示唯讀模式
+      - ./.env:/app/.env
+    networks:
+      - techrag-network
+
+  rag-engine:
+    build:
+      context: ./rag_engine
+      dockerfile: Dockerfile
+    container_name: techrag-rag-engine
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - QDRANT_HOST=qdrant
+      - QDRANT_PORT=6333
+    ports:
+      - "8000:8000"
+    depends_on:
+      - qdrant
+    volumes:
+      - ./.env:/app/.env
+    networks:
+      - techrag-network
 
 volumes:
   postgres_data:
   pgadmin_data:
   qdrant_data:
+
+networks:
+  techrag-network:
+    driver: bridge
