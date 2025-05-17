@@ -12,10 +12,19 @@ import (
 
 // connectDB 連線到 PostgreSQL 資料庫並返回連線物件
 func connectDB() (*sql.DB, error) {
-	// 載入 .env 檔案
-	err := godotenv.Load("../.env")
+	// 優先嘗試載入 /app/.env (Docker 環境)
+	err := godotenv.Load("/app/.env")
 	if err != nil {
-		log.Fatalf("無法載入 .env 檔案: %v", err)
+		// 如果 Docker 環境載入失敗，嘗試載入 ../.env (本地環境)
+		err = godotenv.Load("../.env")
+		if err != nil {
+			log.Printf("無法載入 .env 檔案 (嘗試了 /app/.env 和 ../.env): %v", err)
+			// 即使 .env 檔案載入失敗，也繼續執行，因為環境變數可能已經通過其他方式設定
+		} else {
+			log.Println("成功從 ../.env 載入 .env 檔案")
+		}
+	} else {
+		log.Println("成功從 /app/.env 載入 .env 檔案")
 	}
 
 	// 從環境變數取得資料庫連線資訊
@@ -30,7 +39,7 @@ func connectDB() (*sql.DB, error) {
 	// 打開資料庫連線
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
-		log.Printf("資料庫連線失敗: %v", err) // 改為 Logf 並返回錯誤
+		log.Printf("資料庫連線失敗: %v", err)
 		return nil, err
 	}
 	// defer db.Close() // 移除 defer，連線將保持開啟狀態
@@ -44,7 +53,7 @@ func connectDB() (*sql.DB, error) {
 	}
 
 	fmt.Println("✅ 成功連線到資料庫")
-	return db, nil // 返回連線物件和 nil 錯誤
+	return db, nil
 }
 
 // 將抓取到的文章存入資料庫

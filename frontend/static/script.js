@@ -70,7 +70,7 @@ function fetchArticles(page) {
       initTrendCards();
       
       // 如果已經是最後一頁，禁用載入更多按鈕
-      const loadMoreBtn = document.querySelector('button.bg-rainbow-animated');
+      const loadMoreBtn = document.querySelector('#load-more-btn');
       if (data.pagination.page >= data.pagination.pages) {
         loadMoreBtn.disabled = true;
         loadMoreBtn.classList.add('opacity-50');
@@ -328,7 +328,7 @@ function initArticleModals() {
 
 // 初始化載入更多按鈕
 function initLoadMoreButton() {
-  const loadMoreBtn = document.querySelector('button.bg-rainbow-animated');
+  const loadMoreBtn = document.querySelector('#load-more-btn');
   if (loadMoreBtn) {
     loadMoreBtn.addEventListener('click', function() {
       // 保存原始文本
@@ -402,6 +402,10 @@ function initChatBot() {
   
   if (!chatToggle || !chatContainer || !chatMessages || !chatInput || !chatSend) return;
   
+  // 全局變數用於存儲聊天歷史和前一次查詢的文檔
+  let chatHistory = "";
+  let prevDocs = [];
+  
   // 切換聊天界面顯示
   chatToggle.addEventListener('click', function() {
     chatContainer.classList.toggle('active');
@@ -435,17 +439,106 @@ function initChatBot() {
     // 清空輸入框
     chatInput.value = '';
     
-    // 模擬機器人思考
-    setTimeout(() => {
-      // 生成機器人回應
-      const botResponse = generateBotResponse(message);
+    // 顯示機器人思考中的狀態
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'flex mb-3 typing-indicator';
+    typingDiv.innerHTML = `
+      <div class="w-8 h-8 rounded-full flex items-center justify-center bg-rainbow-animated mr-2 flex-shrink-0">
+        <i class="fas fa-robot text-white text-xs"></i>
+      </div>
+      <div class="bg-dark/80 rounded-lg p-3 max-w-[80%]">
+        <div class="typing-dots">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    `;
+    chatMessages.appendChild(typingDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    
+    // 調用聊天API
+    fetch(`${API_BASE_URL}/api/chat`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        question: message,
+        history: chatHistory,
+        previous_docs_for_followup: prevDocs
+      })
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('聊天請求失敗');
+      }
+      return response.json();
+    })
+    .then(data => {
+      // 移除思考中的狀態
+      const typingIndicator = document.querySelector('.typing-indicator');
+      if (typingIndicator) {
+        typingIndicator.remove();
+      }
       
       // 添加機器人回應到聊天界面
-      addMessageToChat('bot', botResponse);
+      addMessageToChat('bot', data.answer);
       
       // 滾動到底部
       chatMessages.scrollTop = chatMessages.scrollHeight;
-    }, 600);
+      
+      // 更新聊天歷史
+      chatHistory += `User: ${message}\nAssistant: ${data.answer}\n`;
+      
+      // 更新前一次查詢的文檔
+      prevDocs = data.raw_docs || [];
+      
+      // 如果有來源，添加來源展示
+      if (data.sources && data.sources.length > 0) {
+        // 創建來源容器
+        const sourcesDiv = document.createElement('div');
+        sourcesDiv.className = 'flex mb-3';
+        
+        // 添加來源內容
+        let sourcesHTML = `
+          <div class="w-8 h-8 mr-2 flex-shrink-0"></div>
+          <div class="bg-gray-800/50 rounded-lg p-3 max-w-[80%] text-xs">
+            <p class="text-gray-400 mb-1">參考來源:</p>
+        `;
+        
+        // 添加每個來源
+        data.sources.forEach((source, index) => {
+          if (index < 3) { // 最多顯示前3個來源
+            sourcesHTML += `
+              <a href="${source.article_url}" target="_blank" class="text-blue-400 hover:text-blue-300 block mb-1">
+                ${index + 1}. ${source.article_title}
+              </a>
+            `;
+          }
+        });
+        
+        sourcesHTML += `</div>`;
+        sourcesDiv.innerHTML = sourcesHTML;
+        
+        // 添加到聊天界面
+        chatMessages.appendChild(sourcesDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+    })
+    .catch(error => {
+      console.error('聊天請求失敗:', error);
+      
+      // 移除思考中的狀態
+      const typingIndicator = document.querySelector('.typing-indicator');
+      if (typingIndicator) {
+        typingIndicator.remove();
+      }
+      
+      // 添加錯誤消息
+      addMessageToChat('bot', '抱歉，我現在無法回應。請稍後再試。');
+      
+      // 滾動到底部
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
   }
   
   // 添加消息到聊天界面函數
@@ -473,31 +566,6 @@ function initChatBot() {
     
     chatMessages.appendChild(messageDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
-  }
-  
-  // 生成機器人回應函數
-  function generateBotResponse(userMessage) {
-    // 轉為小寫便於匹配
-    const message = userMessage.toLowerCase();
-    
-    // Simple response logic
-    if (message.includes('hello') || message.includes('hi') || message.includes('hey')) {
-      return "Hello! How can I help you with tech trends today?";
-    } else if (message.includes('ai') || message.includes('artificial intelligence')) {
-      return "Artificial Intelligence is evolving rapidly. Recent trends show increased focus on generative AI, multimodal models, and AI ethics. Would you like to know more about a specific AI area?";
-    } else if (message.includes('blockchain') || message.includes('crypto')) {
-      return "Blockchain technology continues to advance beyond cryptocurrencies. Key trends include DeFi (Decentralized Finance), NFTs, and enterprise blockchain solutions. Any specific aspect interests you?";
-    } else if (message.includes('quantum')) {
-      return "Quantum computing is making significant strides. Recent breakthroughs include error correction improvements and the race to achieve quantum advantage in practical applications.";
-    } else if (message.includes('trend') || message.includes('popular')) {
-      return "Current popular tech trends include generative AI, quantum computing, extended reality (XR), sustainable tech, and edge computing. Which area would you like to explore?";
-    } else if (message.includes('metaverse')) {
-      return "The metaverse concept continues to evolve, with developments in virtual worlds, digital assets, and immersive experiences. Companies are exploring both consumer and enterprise applications.";
-    } else if (message.includes('thanks') || message.includes('thank you')) {
-      return "You're welcome! Feel free to ask if you have more questions about tech trends.";
-    } else {
-      return "That's an interesting topic. I'd be happy to explore more about " + userMessage + " and how it relates to emerging tech trends. Could you specify what aspect you're most interested in?";
-    }
   }
 }
 

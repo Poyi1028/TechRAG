@@ -25,3 +25,5 @@ go.work.sum
 .env
 venv/
 docs/
+
+__pycache__/

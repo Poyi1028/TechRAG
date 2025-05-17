@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -46,13 +48,24 @@ func main() {
 		c.Next()
 	})
 
+	// 判斷運行環境以設定前端檔案路徑
+	frontendBasePath := "../frontend" // 本地開發預設路徑
+
+	// 檢查 /app/frontend 是否存在，如果存在，則假定在 Docker 環境中
+	if _, err := os.Stat("/app/frontend"); err == nil {
+		frontendBasePath = "/app/frontend"
+		log.Println("Detected Docker environment, serving frontend from /app/frontend")
+	} else {
+		log.Println("Serving frontend from local path: ../frontend")
+	}
+	log.Printf("Final frontend base path: %s", frontendBasePath)
+
 	// 設置前端靜態文件
-	r.Static("/static", "../frontend")
+	r.Static("/static", filepath.Join(frontendBasePath, "static"))
 
 	// 添加首頁路由，返回前端 index.html
 	r.GET("/", func(c *gin.Context) {
-		// 直接返回文件，依賴中間件設置的緩存控制標頭
-		c.File("../frontend/index.html")
+		c.File(filepath.Join(frontendBasePath, "index.html"))
 	})
 
 	// API 路由
@@ -73,6 +86,9 @@ func main() {
 		api.GET("/articles", getArticles)          // 獲取文章列表
 		api.GET("/articles/:uri", getArticleByURI) // 獲取單篇文章詳情
 	}
+
+	// 初始化聊天路由
+	initChatRoutes(r)
 
 	// 啟動服務器
 	log.Printf("伺服器啟動，版本號: %s", version)

@@ -8,3 +8,4 @@ langchain-huggingface
 qdrant-client
 torch --index-url https://download.pytorch.org/whl/cpu
 pandas
+python-dotenv
