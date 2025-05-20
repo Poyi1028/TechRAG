@@ -4,6 +4,8 @@ Leverage **Large Language Models (LLMs)** and **Retrieval-Augmented Generation (
 
 ---
 
+**Demo Video:** [YouTube](https://youtu.be/GjZI6MO7e0w)
+
 ![專案截圖](index.png)
 
 ---
@@ -23,16 +25,12 @@ Leverage **Large Language Models (LLMs)** and **Retrieval-Augmented Generation (
 - **Chatbot Model**:
   ![Llama3](https://img.shields.io/badge/Llama3-0052CC?style=for-the-badge&logo=meta&logoColor=white)
 - **News Source**:
-  ![Event Registry](https://img.shields.io/badge/Event%20Registry-FF5722?style=for-the-badge&logo=news&logoColor=white)
+  ![Event Registry](https://img.shields.io/badge/Event%20Registry%20API-FF5722?style=for-the-badge&logo=news&logoColor=white)
 
 ![核心功能](features.png)
 
-## 🔥 Development Progress
+## 🎯 Future Features
 
-- [x] Basic Go Gin API Setup
-- [x] Basic Python FastAPI RAG Setup
-- [x] News Fetcher (Event Registry Integration)
-- [x] RAG Integration with Qdrant
-- [x] Frontend Integration
-- [x] Dockerization and Deployment
-- [ ] Optimization
+- **Search and filtering capabilities**
+- **Enhanced RAG functionality and performance**
+- **Automated news fetching pipeline**

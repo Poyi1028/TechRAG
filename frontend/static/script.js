@@ -502,7 +502,7 @@ function initChatBot() {
         let sourcesHTML = `
           <div class="w-8 h-8 mr-2 flex-shrink-0"></div>
           <div class="bg-gray-800/50 rounded-lg p-3 max-w-[80%] text-xs">
-            <p class="text-gray-400 mb-1">參考來源:</p>
+            <p class="text-gray-400 mb-1">Source:</p>
         `;
         
         // 添加每個來源
