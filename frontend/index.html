@@ -121,7 +121,7 @@
                 </div>
                 
                 <!-- 下方聊天機器人 -->
-                <div class="w-full md:w-2/3 lg:w-1/2 fade-in-section" data-delay="200">
+                <div class="w-full md:w-4/5 lg:w-3/5 fade-in-section" data-delay="200">
                     <div class="glass-effect rounded-xl p-4">
                         <button id="chat-toggle" class="w-full flex items-center justify-center space-x-2 py-3 text-white hover:text-light transition-colors text-xl font-medium">
                             <i class="fas fa-robot text-xl"></i>
@@ -129,7 +129,7 @@
                             <i class="fas fa-chevron-down ml-2" id="chat-chevron"></i>
                         </button>
                         <div id="chat-container" class="mt-3 border-t border-gray-700/50 pt-3">
-                            <div id="chat-messages" class="h-64 overflow-y-auto mb-3 p-3 bg-dark/50 rounded-lg">
+                            <div id="chat-messages" class="h-[28rem] overflow-y-auto mb-3 p-3 bg-dark/50 rounded-lg">
                                 <div class="flex mb-3">
                                     <div class="w-8 h-8 rounded-full flex items-center justify-center bg-rainbow-animated mr-2 flex-shrink-0">
                                         <i class="fas fa-robot text-white text-xs"></i>
@@ -184,109 +184,29 @@
             </div>
 
             <!-- 主要新聞區域 -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                <!-- 左側主要新聞內容 -->
-                <div class="lg:col-span-2 fade-in-section" data-delay="200">
-                    <div class="flex items-center justify-between mb-8">
-                        <h3 class="text-2xl font-bold text-light flex items-center">
-                            <span class="w-1 h-8 bg-rainbow-animated rounded-full mr-4"></span>
-                            Latest Updates
-                        </h3>
-                    </div>
-                    
-                    <!-- 新聞列表 -->
-                    <div id="news-list" class="space-y-6">
-                        <!-- 動態載入新聞列表 -->
-                        <div class="text-center py-16">
-                            <i class="fas fa-spinner fa-spin text-4xl text-gray-500"></i>
-                            <p class="text-gray-400 mt-4">Loading latest news...</p>
-                        </div>
-                    </div>
-
-                    <!-- Load More 按鈕 -->
-                    <div class="text-center mt-12">
-                        <button id="load-more-btn" class="load-more-professional">
-                            <span>Load More Articles</span>
-                            <i class="fas fa-chevron-down ml-2"></i>
-                        </button>
+            <div class="fade-in-section" data-delay="200">
+                <div class="flex items-center justify-between mb-8">
+                    <h3 class="text-2xl font-bold text-light flex items-center">
+                        <span class="w-1 h-8 bg-rainbow-animated rounded-full mr-4"></span>
+                        Latest Updates
+                    </h3>
+                </div>
+                
+                <!-- 新聞列表 -->
+                <div id="news-list" class="news-grid">
+                    <!-- 動態載入新聞列表 -->
+                    <div class="text-center py-16 col-span-2">
+                        <i class="fas fa-spinner fa-spin text-4xl text-gray-500"></i>
+                        <p class="text-gray-400 mt-4">Loading latest news...</p>
                     </div>
                 </div>
 
-                <!-- 右側邊欄 -->
-                <div class="lg:col-span-1 fade-in-section" data-delay="300">
-                    <!-- 熱門話題 -->
-                    <div class="news-sidebar-card mb-8">
-                        <h4 class="news-sidebar-title">
-                            <i class="fas fa-fire text-orange-500 mr-2"></i>
-                            Trending Topics
-                        </h4>
-                        <div class="space-y-3">
-                            <div class="trending-topic">
-                                <span class="trending-rank">1</span>
-                                <span class="trending-text">Artificial Intelligence Revolution</span>
-                            </div>
-                            <div class="trending-topic">
-                                <span class="trending-rank">2</span>
-                                <span class="trending-text">Quantum Computing Breakthrough</span>
-                            </div>
-                            <div class="trending-topic">
-                                <span class="trending-rank">3</span>
-                                <span class="trending-text">5G Network Expansion</span>
-                            </div>
-                            <div class="trending-topic">
-                                <span class="trending-rank">4</span>
-                                <span class="trending-text">Cybersecurity Innovations</span>
-                            </div>
-                            <div class="trending-topic">
-                                <span class="trending-rank">5</span>
-                                <span class="trending-text">Green Technology Solutions</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 統計資訊 -->
-                    <div class="news-sidebar-card mb-8">
-                        <h4 class="news-sidebar-title">
-                            <i class="fas fa-chart-line text-blue-500 mr-2"></i>
-                            Today's Statistics
-                        </h4>
-                        <div class="space-y-4">
-                            <div class="stat-item">
-                                <span class="stat-label">Articles Published</span>
-                                <span class="stat-value">24</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">AI Related News</span>
-                                <span class="stat-value">8</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Total Readers</span>
-                                <span class="stat-value">12.5K</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 快速導航 -->
-                    <div class="news-sidebar-card">
-                        <h4 class="news-sidebar-title">
-                            <i class="fas fa-compass text-purple-500 mr-2"></i>
-                            Quick Navigation
-                        </h4>
-                        <div class="space-y-2">
-                            <a href="#ai-news" class="quick-nav-link">
-                                <i class="fas fa-robot mr-2"></i>AI & Machine Learning
-                            </a>
-                            <a href="#blockchain-news" class="quick-nav-link">
-                                <i class="fas fa-link mr-2"></i>Blockchain & Crypto
-                            </a>
-                            <a href="#cloud-news" class="quick-nav-link">
-                                <i class="fas fa-cloud mr-2"></i>Cloud Computing
-                            </a>
-                            <a href="#security-news" class="quick-nav-link">
-                                <i class="fas fa-shield-alt mr-2"></i>Cybersecurity
-                            </a>
-                        </div>
-                    </div>
+                <!-- Load More 按鈕 -->
+                <div class="text-center mt-12">
+                    <button id="load-more-btn" class="load-more-professional">
+                        <span>Load More Articles</span>
+                        <i class="fas fa-chevron-down ml-2"></i>
+                    </button>
                 </div>
             </div>
         </div>

@@ -179,10 +179,6 @@ function renderNewsList(articles, container) {
               <i class="fas fa-clock mr-1"></i>
               ${timeAgo}
             </span>
-            <span class="news-date">
-              <i class="fas fa-user mr-1"></i>
-              ${article.source_title}
-            </span>
           </div>
           <h3 class="news-title">${article.title}</h3>
           <p class="news-excerpt">${excerpt}</p>
