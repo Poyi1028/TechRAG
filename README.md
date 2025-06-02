@@ -4,9 +4,20 @@ Leverage **Large Language Models (LLMs)** and **Retrieval-Augmented Generation (
 
 ---
 
-**Demo Video:** [YouTube](https://youtu.be/GjZI6MO7e0w)
+**Demo Video :** [YouTube](https://youtu.be/o6T33C9SBcM)
 
 ![專案截圖](index.png)
+
+![新聞截圖](news.png)
+
+![聊天截圖](chat.png)
+---
+
+## 🔧 Update
+
+- 2025-06-02: 
+  - Adjust the layout of the news section and chatbot section.
+  - Add a typing effect to the chatbot.
 
 ---
 
@@ -26,8 +37,6 @@ Leverage **Large Language Models (LLMs)** and **Retrieval-Augmented Generation (
   ![Llama3](https://img.shields.io/badge/Llama3-0052CC?style=for-the-badge&logo=meta&logoColor=white)
 - **News Source**:
   ![Event Registry](https://img.shields.io/badge/Event%20Registry%20API-FF5722?style=for-the-badge&logo=news&logoColor=white)
-
-![核心功能](features.png)
 
 ## 🎯 Future Features
 
