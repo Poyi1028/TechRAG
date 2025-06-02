@@ -161,38 +161,133 @@
     </header>
 
     <!-- Popular trends -->
-    <section id="trends" class="relative z-10 py-14 px-6">
-        <div class="container mx-auto">
-            <div class="flex items-center justify-between mb-10 fade-in-section">
-                <div class="w-1/4 lg:w-1/3"></div>
-                <h2 class="text-3xl md:text-4xl font-bold text-center tech-circuit">
-                    <span class="text-rainbow-animated">
-                        Popular Tech Trends
-                    </span>
+    <section id="trends" class="relative z-10 py-8 px-6">
+        <div class="container mx-auto max-w-7xl">
+            <!-- 新聞網站標題區 -->
+            <div class="text-center mb-12 fade-in-section">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                    <span class="text-rainbow-animated">Tech News Today</span>
                 </h2>
-                <div class="flex justify-end space-x-2 w-1/4 lg:w-1/3">
-                    <button class="bg-dark hover:bg-dark/80 rounded-lg px-4 py-2 transition-colors border border-gray-700 text-gray-300 hover:text-light">
-                        <i class="fas fa-filter mr-2"></i>Filter
-                    </button>
-                    <button class="bg-dark hover:bg-dark/80 rounded-lg px-4 py-2 transition-colors border border-gray-700 text-gray-300 hover:text-light">
-                        Latest
-                        <i class="fas fa-chevron-down ml-2"></i>
-                    </button>
+                <p class="text-gray-400 text-lg">Stay ahead with the latest technology breakthroughs and industry insights</p>
+                <div class="w-24 h-1 bg-rainbow-animated mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <!-- 頭條新聞區域 -->
+            <div class="mb-16 fade-in-section" data-delay="100">
+                <h3 class="text-2xl font-bold text-light mb-6 flex items-center">
+                    <span class="w-1 h-8 bg-rainbow-animated rounded-full mr-4"></span>
+                    Featured Stories
+                </h3>
+                <div id="featured-news" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- 動態載入頭條新聞 -->
                 </div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Dynamic article cards -->
-                <div class="col-span-4 text-center py-10">
-                    <i class="fas fa-spinner fa-spin text-3xl"></i>
+
+            <!-- 主要新聞區域 -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                <!-- 左側主要新聞內容 -->
+                <div class="lg:col-span-2 fade-in-section" data-delay="200">
+                    <div class="flex items-center justify-between mb-8">
+                        <h3 class="text-2xl font-bold text-light flex items-center">
+                            <span class="w-1 h-8 bg-rainbow-animated rounded-full mr-4"></span>
+                            Latest Updates
+                        </h3>
+                    </div>
+                    
+                    <!-- 新聞列表 -->
+                    <div id="news-list" class="space-y-6">
+                        <!-- 動態載入新聞列表 -->
+                        <div class="text-center py-16">
+                            <i class="fas fa-spinner fa-spin text-4xl text-gray-500"></i>
+                            <p class="text-gray-400 mt-4">Loading latest news...</p>
+                        </div>
+                    </div>
+
+                    <!-- Load More 按鈕 -->
+                    <div class="text-center mt-12">
+                        <button id="load-more-btn" class="load-more-professional">
+                            <span>Load More Articles</span>
+                            <i class="fas fa-chevron-down ml-2"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- Load More button -->
-            <div class="text-center mt-12 fade-in-section" data-delay="400">
-                <button id="load-more-btn" class="bg-rainbow-animated hover:opacity-90 px-8 py-3 rounded-lg transition-all shadow-lg flex items-center mx-auto text-white btn-hover-effect">
-                    <span>Load More Trends</span>
-                    <i class="fas fa-angle-down ml-2"></i>
-                </button>
+
+                <!-- 右側邊欄 -->
+                <div class="lg:col-span-1 fade-in-section" data-delay="300">
+                    <!-- 熱門話題 -->
+                    <div class="news-sidebar-card mb-8">
+                        <h4 class="news-sidebar-title">
+                            <i class="fas fa-fire text-orange-500 mr-2"></i>
+                            Trending Topics
+                        </h4>
+                        <div class="space-y-3">
+                            <div class="trending-topic">
+                                <span class="trending-rank">1</span>
+                                <span class="trending-text">Artificial Intelligence Revolution</span>
+                            </div>
+                            <div class="trending-topic">
+                                <span class="trending-rank">2</span>
+                                <span class="trending-text">Quantum Computing Breakthrough</span>
+                            </div>
+                            <div class="trending-topic">
+                                <span class="trending-rank">3</span>
+                                <span class="trending-text">5G Network Expansion</span>
+                            </div>
+                            <div class="trending-topic">
+                                <span class="trending-rank">4</span>
+                                <span class="trending-text">Cybersecurity Innovations</span>
+                            </div>
+                            <div class="trending-topic">
+                                <span class="trending-rank">5</span>
+                                <span class="trending-text">Green Technology Solutions</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 統計資訊 -->
+                    <div class="news-sidebar-card mb-8">
+                        <h4 class="news-sidebar-title">
+                            <i class="fas fa-chart-line text-blue-500 mr-2"></i>
+                            Today's Statistics
+                        </h4>
+                        <div class="space-y-4">
+                            <div class="stat-item">
+                                <span class="stat-label">Articles Published</span>
+                                <span class="stat-value">24</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">AI Related News</span>
+                                <span class="stat-value">8</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Total Readers</span>
+                                <span class="stat-value">12.5K</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 快速導航 -->
+                    <div class="news-sidebar-card">
+                        <h4 class="news-sidebar-title">
+                            <i class="fas fa-compass text-purple-500 mr-2"></i>
+                            Quick Navigation
+                        </h4>
+                        <div class="space-y-2">
+                            <a href="#ai-news" class="quick-nav-link">
+                                <i class="fas fa-robot mr-2"></i>AI & Machine Learning
+                            </a>
+                            <a href="#blockchain-news" class="quick-nav-link">
+                                <i class="fas fa-link mr-2"></i>Blockchain & Crypto
+                            </a>
+                            <a href="#cloud-news" class="quick-nav-link">
+                                <i class="fas fa-cloud mr-2"></i>Cloud Computing
+                            </a>
+                            <a href="#security-news" class="quick-nav-link">
+                                <i class="fas fa-shield-alt mr-2"></i>Cybersecurity
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -309,9 +404,8 @@
                 <i class="fas fa-times text-gray-400"></i>
             </div>
             <h2 class="text-2xl font-bold text-light modal-title" id="modal-title"></h2>
-            <div id="modal-tag" class="bg-gray-700 text-gray-300 text-xs px-3 py-1 rounded-lg inline-block mb-4"></div>
             <div id="modal-date" class="text-gray-400 text-sm mb-6"></div>
-            <div class="modal-img h-64 bg-cover bg-center rounded-xl mb-6" id="modal-img"></div>
+            <div class="modal-img h-64 bg-cover bg-center" id="modal-img"></div>
             <div class="text-gray-300 leading-relaxed" id="modal-content"></div>
         </div>
     </div>
