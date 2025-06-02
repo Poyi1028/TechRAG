@@ -76,21 +76,13 @@
 
 /* 卡片內部的內容區域增加相對定位 */
 .card-inner-content > div:nth-child(2) {
-  position: relative;
-  flex: 1;
   display: flex;
   flex-direction: column;
+  height: 100%; /* 確保內容區域填滿剩餘高度 */
+  justify-content: flex-start; /* 內容從頂部開始 */
 }
 
 /* 卡片內文字區域 */
-.card-inner-content p.text-truncate {
-  flex: 1;
-  line-height: 1.5; /* 設定行高以方便計算 */
-  max-height: 4.5em; /* 限制最大高度約為3行 (3 * 1.5em) */
-  overflow: hidden; /* 隱藏超出最大高度的內容 */
-  margin-bottom: 1.5rem !important;
-}
-
 /* No image placeholder 樣式 */
 .no-image-placeholder {
   background-color: #222;
@@ -157,30 +149,25 @@
   color: transparent;
 }
 
-.tech-card p {
-  transition: color 0.3s ease;
+/* 標題截斷樣式 */
+.title-truncate {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.3;
+  max-height: calc(1.3em * 6); /* 5行的高度 */
 }
 
-.tech-card:hover p {
-  color: rgba(255, 255, 255, 0.9);
-}
-
-/* Read More 按鈕定位在右下角 */
+/* Read More 按鈕樣式 */
 .read-more-btn {
-  position: absolute;
-  bottom: 0;
-  right: 0;
   transition: background 0.3s ease, transform 0.3s ease, color 0.3s ease;
-  overflow: visible;
-  padding-right: 0;
   z-index: 5;
 }
 
-/* 確保包含 Read More 的容器不會裁切內容 */
+/* 確保包含 Read More 的容器使用flex佈局 */
 .tech-card .flex.justify-end.items-center {
-  overflow: visible;
   position: relative;
-  height: 32px;
 }
 
 .tech-card:hover .read-more-btn {

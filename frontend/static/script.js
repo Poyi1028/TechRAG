@@ -33,13 +33,13 @@ let articlesData = {};
 // 從API獲取文章
 function fetchArticles(page) {
   // 顯示載入狀態
-  const trendsContainer = document.querySelector('.grid.grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-3');
+  const trendsContainer = document.querySelector('.grid.grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-4');
   if (page === 1) {
-    trendsContainer.innerHTML = '<div class="col-span-3 text-center py-10"><i class="fas fa-spinner fa-spin text-3xl"></i></div>';
+    trendsContainer.innerHTML = '<div class="col-span-4 text-center py-10"><i class="fas fa-spinner fa-spin text-3xl"></i></div>';
   }
   
   // 發送API請求
-  fetch(`${API_BASE_URL}/api/articles?page=${page}&size=6`)
+  fetch(`${API_BASE_URL}/api/articles?page=${page}&size=8`)
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -81,7 +81,7 @@ function fetchArticles(page) {
     })
     .catch(error => {
       console.error('Failed to fetch articles:', error);
-      trendsContainer.innerHTML = '<div class="col-span-3 text-center py-10 text-red-500">Failed to load articles. Please try again later.</div>';
+      trendsContainer.innerHTML = '<div class="col-span-4 text-center py-10 text-red-500">Failed to load articles. Please try again later.</div>';
     });
 }
 
@@ -112,13 +112,12 @@ function renderArticleCards(articles, container) {
           ${placeholderIcon}
         </div>
         <div class="p-6">
-          <div class="flex justify-between items-center mb-3">
+          <div class="flex justify-between items-center mb-1">
             <span class="bg-gray-700 text-gray-300 text-xs px-3 py-1 rounded-lg data-tag">Artificial Intelligence</span>
             <span class="text-gray-400 text-sm">${timeAgo}</span>
           </div>
-          <h3 class="text-xl font-bold mb-3 text-light">${article.title}</h3>
-          <p class="text-gray-300 font-light text-truncate">${article.summary}</p>
-          <div class="flex justify-end items-center">
+          <h3 class="text-base font-bold mb-3 text-light flex-grow title-truncate">${article.title}</h3>
+          <div class="flex justify-end items-center mt-auto">
             <button class="text-gray-400 hover:text-light flex items-center read-more-btn" data-article-id="${article.uri}">
               Read More
             </button>

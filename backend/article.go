@@ -15,7 +15,6 @@ type ArticleResponse struct {
 	URI         string    `json:"uri"`
 	Title       string    `json:"title"`
 	Content     string    `json:"content"`
-	Summary     string    `json:"summary"`
 	URL         string    `json:"url"`
 	PublishedAt time.Time `json:"published_at"`
 	SourceURI   string    `json:"source_uri"`
@@ -32,9 +31,9 @@ func getArticles(c *gin.Context) {
 		return
 	}
 
-	// 獲取分頁參數，默認第 1 頁，每頁 6 條
+	// 獲取分頁參數，默認第 1 頁，每頁 8 條
 	page := 1
-	pageSize := 6
+	pageSize := 8
 
 	if pageStr := c.Query("page"); pageStr != "" {
 		if pageNum, err := strconv.Atoi(pageStr); err == nil && pageNum > 0 {
@@ -62,7 +61,7 @@ func getArticles(c *gin.Context) {
 
 	// 查詢文章列表
 	rows, err := db.Query(`
-		SELECT uri, title, content, summary, url, published_at, source_uri, source_title, image
+		SELECT uri, title, content, url, published_at, source_uri, source_title, image
 		FROM articles
 		ORDER BY published_at DESC
 		LIMIT $1 OFFSET $2
@@ -82,7 +81,6 @@ func getArticles(c *gin.Context) {
 			&article.URI,
 			&article.Title,
 			&article.Content,
-			&article.Summary,
 			&article.URL,
 			&article.PublishedAt,
 			&article.SourceURI,
@@ -135,14 +133,13 @@ func getArticleByURI(c *gin.Context) {
 	// 查詢文章
 	var article ArticleResponse
 	err := db.QueryRow(`
-		SELECT uri, title, content, summary, url, published_at, source_uri, source_title, image
+		SELECT uri, title, content, url, published_at, source_uri, source_title, image
 		FROM articles
 		WHERE uri = $1
 	`, uri).Scan(
 		&article.URI,
 		&article.Title,
 		&article.Content,
-		&article.Summary,
 		&article.URL,
 		&article.PublishedAt,
 		&article.SourceURI,
